@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+   <!-- Default Colors
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    -->
+
+    <color name="colorPrimary">#607D8B</color>
+    <color name="colorPrimaryDark">#426474</color>
+    <color name="colorAccent">#71AECC</color>
+    <color name="white">#FFFFFF</color>
+    <color name="darkGray">#333333</color>
+    <color name="color_clicked">#333333</color>
+    <color name="red">#e74c3c</color>
+    <color name="green">#27ae60</color>
+    <color name="yellow">#f1c40f</color>
+
+
+</resources>

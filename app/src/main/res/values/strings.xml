@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Sterix Mobile</string>
+
+    <string name="credentials">Enter your credentials</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="submit">Submit</string>
+
+    <string name="service_orders">Service Orders</string>
+
+    <string name="next">Next Screen</string>
+
+    <string name="title_activity_tasks">Tasks</string>
+
+    <string name="title_activity_acknowledgement">Client\'s Acknowledgement</string>
+    <string name="ack_1">Start monitoring</string>
+    <string name="ack_2">Start chemical treatment at outer perimeter</string>
+    <string name="ack_3">Reschedule task due to the following reasons...</string>
+    <string name="ack_4">Cancel chemical treatment at production area due to production</string>
+    <string name="by_entering">By entering my username and password, I\'m acknowledging the selected actions of the Sterix Technician</string>
+
+</resources>
