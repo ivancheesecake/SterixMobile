@@ -23,6 +23,7 @@
             android:layout_marginBottom="16dp"
             android:textSize="18dp"
             android:textAlignment="center"
+
             />
 
 
@@ -37,6 +38,7 @@
                 android:id="@+id/login_username"
                 android:hint="@string/username"
                 android:layout_marginBottom="8dp"
+
                 
                 />
         </android.support.design.widget.TextInputLayout>
@@ -54,6 +56,7 @@
                 android:layout_marginBottom="8dp"
                 android:inputType="textPassword"
 
+
                 />
         </android.support.design.widget.TextInputLayout>
 
@@ -65,6 +68,7 @@
             android:background="@color/colorPrimary"
             android:textAllCaps="false"
             android:onClick="login"
+
             />
 
 

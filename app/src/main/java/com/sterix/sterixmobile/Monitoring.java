@@ -6,18 +6,20 @@ package com.sterix.sterixmobile;
 
 public class Monitoring {
 
-    public String id;
-    public String location;
-    public String[] monitoringTasks;
+    private String id;
+    private String location;
+    private String[] monitoringTasks;
+    private String[] status;
 
     public Monitoring(){
     }
 
-    public Monitoring(String id, String location,String[] monitoringTasks){
+    public Monitoring(String id, String location,String[] monitoringTasks,String[] status){
 
         this.id = id;
         this.location = location;
         this.monitoringTasks = monitoringTasks;
+        this.status = status;
 
     }
 
@@ -44,4 +46,13 @@ public class Monitoring {
     public void setMonitoringTasks(String[] monitoringTasks) {
         this.monitoringTasks = monitoringTasks;
     }
+
+    public String[] getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String[] status) {
+        this.status = status;
+    }
 }
+
