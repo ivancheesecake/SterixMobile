@@ -10,17 +10,19 @@ public class Task {
     private String time;
     private String task;
     private String status;
+    private String type;
 
 
     public Task(){
     }
 
-    public Task(String id, String time, String task, String status){
+    public Task(String id, String time, String task, String status,String type){
 
         this.id = id;
         this.time = time;
         this.task = task;
         this.status = status;
+        this.type = type;
 
     }
 
@@ -54,5 +56,13 @@ public class Task {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

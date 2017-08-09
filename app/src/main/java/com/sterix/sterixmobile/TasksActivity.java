@@ -37,25 +37,63 @@ public class TasksActivity extends AppCompatActivity {
 
         prepareTasks();
 
+        ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+
+                t = tasks.get(position);
+
+                Log.d("Time",t.getTime());
+                Log.d("Task",t.getTask());
+
+                if(t.getType().equals("monitoring")){
+
+                    Log.d("Task","Monitoring");
+                    Intent monitoringIntent = new Intent(getApplicationContext(), MonitoringActivity.class);
+                    startActivity(monitoringIntent);
+                }
+                else if(t.getType().equals("treatment")){
+
+                    Log.d("Task","Treatment");
+                    Intent treatmentIntent = new Intent(getApplicationContext(), TreatmentActivity.class);
+                    startActivity(treatmentIntent);
+                }
+
+
+
+//                Context context = getApplicationContext();
+//                CharSequence text = so.getDate();
+//                int duration = Toast.LENGTH_SHORT;
+//
+//                Toast toast = Toast.makeText(context, text, duration);
+//                toast.show();
+
+                //Intent serviceOrdersIntent = new Intent(context, TasksActivity.class);
+                //startActivity(serviceOrdersIntent);
+                //finish();
+
+            }
+        });
+
     }
 
     private void prepareTasks() {
 
         // Fetch data from server
 
-        t = new Task("0","6:00 AM", "Login at guard house", "0");
+        t = new Task("0","6:00 AM", "Login at guard house", "0","generic");
         tasks.add(t);
 
-        t = new Task("1","6:10 AM", "Prepare Materials", "0");
+        t = new Task("1","6:10 AM", "Prepare Materials", "0","generic");
         tasks.add(t);
 
-        t = new Task("2","7:00 AM", "Conduct pre Treatment Monitoring", "0");
+        t = new Task("2","7:00 AM", "Conduct pre Treatment Monitoring", "0","monitoring");
         tasks.add(t);
 
-        t = new Task("3","9:00 AM", "Conduct Treatment", "0");
+        t = new Task("3","9:00 AM", "Conduct Treatment", "0","treatment");
         tasks.add(t);
 
-        t = new Task("4","3:00 PM", "Conduct post treatment monitoring again and again and again and again", "0");
+        t = new Task("4","3:00 PM", "Conduct post treatment monitoring. ", "0","monitoring");
         tasks.add(t);
 
         taskAdapter.notifyDataSetChanged();
@@ -66,8 +104,6 @@ public class TasksActivity extends AppCompatActivity {
 
         Task currentTask;
         String id = v.getTag().toString();
-        int status;
-
 
         // I'm going to do the inefficient thing
 
@@ -109,6 +145,11 @@ public class TasksActivity extends AppCompatActivity {
 
         Intent acknowledgementIntent = new Intent(getApplicationContext(), AcknowledgementActivity.class);
         startActivity(acknowledgementIntent);
+    }
+
+    public void openTask(View v){
+
+        Log.d("HEY","HEY");
     }
 
 }

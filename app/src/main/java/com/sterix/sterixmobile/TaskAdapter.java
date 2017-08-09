@@ -27,6 +27,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         public TextView statusTextView;
         public Button statusButton;
 
+
         public TaskViewHolder(View view) {
             super(view);
             timeTextView = (TextView) view.findViewById(R.id.tasks_time);
@@ -56,7 +57,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         Task t = tasks.get(position);
         holder.timeTextView.setText(t.getTime());
         holder.taskTextView.setText(t.getTask());
-        holder.statusTextView.setText(t.getStatus());
+        holder.taskTextView.setTag(t);
+        holder.statusTextView.setText(t.getStatus()); //remove this later
         holder.statusButton.setTag(t.getId());
 
         if(t.getStatus()=="0")

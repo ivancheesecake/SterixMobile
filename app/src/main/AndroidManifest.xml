@@ -23,7 +23,13 @@
             android:label="@string/title_activity_tasks" />
         <activity
             android:name=".AcknowledgementActivity"
-            android:label="@string/title_activity_acknowledgement" ></activity>
+            android:label="@string/title_activity_acknowledgement" />
+        <activity
+            android:name=".MonitoringActivity"
+            android:label="@string/monitoring" />
+        <activity
+            android:name="TreatmentActivity"
+            android:label="@string/treatment"/>
     </application>
 
 </manifest>

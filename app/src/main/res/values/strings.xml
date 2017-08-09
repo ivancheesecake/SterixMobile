@@ -20,4 +20,7 @@
     <string name="ack_4">Cancel chemical treatment at production area due to production</string>
     <string name="by_entering">By entering my username and password, I\'m acknowledging the selected actions of the Sterix Technician</string>
 
+    <string name="monitoring">Monitoring</string>
+    <string name="treatment">Treatment</string>
+
 </resources>
