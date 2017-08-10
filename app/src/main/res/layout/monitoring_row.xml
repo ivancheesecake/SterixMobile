@@ -57,7 +57,7 @@
                     android:layout_width="40dp"
                     android:layout_centerVertical="true"
                     android:background="@drawable/curved_borders_red"
-                    android:onClick="updateStatus"
+                    android:onClick="proceedToMonitoring"
                     app:layout_widthPercent="49%"
                     android:text="Start Device Monitoring"
                     android:textColor="@color/white"
@@ -72,13 +72,13 @@
                     android:id="@+id/monitoring_button2"
                     android:layout_centerVertical="true"
                     android:background="@drawable/curved_borders_green"
-                    android:onClick="updateStatus"
                     app:layout_widthPercent="49%"
                     android:layout_toRightOf="@id/monitoring_button1"
                     android:text="Start Device Monitoring"
                     android:textColor="@color/white"
                     android:textAllCaps="false"
                     android:layout_height="match_parent"
+                    android:onClick="proceedToMonitoring"
 
                     />
             </android.support.percent.PercentRelativeLayout>

@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_service_orders"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_area_monitoring"
+    tools:context="com.sterix.sterixmobile.AreaMonitoringActivity"
+
+    >
+
+<RelativeLayout
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+
+    <android.support.percent.PercentRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:background="@drawable/curved_borders_blue"
+        android:id="@+id/area_monitoring_row1"
+        >
+    <TextView
+
+        android:id="@+id/area_monitoring_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textColor="@color/white"
+        app:layout_widthPercent="60%"
+        android:textSize="16dp"
+        >
+
+    </TextView>
+
+    <Button
+
+        android:id="@+id/area_monitoring_alert"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textColor="@color/white"
+        app:layout_widthPercent="30%"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/curved_borders_red"
+        android:textAllCaps="false"
+        android:text="@string/send_alert"
+
+        >
+
+    </Button>
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:layout_below="@+id/area_monitoring_row1"
+        android:id="@+id/area_monitoring_row2"
+        android:layout_marginBottom="5dp"
+
+
+        >
+
+        <TextView
+
+            android:id="@+id/area_findings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            app:layout_widthPercent="70%"
+            android:text="@string/area_findings"
+            android:textSize="16dp"
+            />
+
+        <Button
+
+            android:id="@+id/area_findings_add_photo"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            app:layout_widthPercent="30%"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/curved_borders_blue"
+            android:textAllCaps="false"
+            android:text="@string/add_photo"
+
+            >
+
+        </Button>
+
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/area_monitoring_row3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/area_monitoring_row2"
+        android:layout_marginBottom="5dp"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/area_findings_notes"
+            android:hint="@string/notes"
+            android:layout_marginBottom="8dp"
+            android:inputType="textPassword"
+
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:layout_below="@+id/area_monitoring_row3"
+        android:id="@+id/area_monitoring_row4"
+        android:layout_marginBottom="5dp"
+
+        >
+
+        <TextView
+
+            android:id="@+id/area_actions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            app:layout_widthPercent="70%"
+            android:text="@string/area_actions"
+            android:textSize="16dp"
+            />
+
+        <Button
+
+            android:id="@+id/area_actions_add_photo"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            app:layout_widthPercent="30%"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/curved_borders_blue"
+            android:textAllCaps="false"
+            android:text="@string/add_photo"
+
+            >
+
+        </Button>
+
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/area_monitoring_row5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/area_monitoring_row4"
+        android:layout_marginBottom="5dp"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/area_actions_notes"
+            android:hint="@string/notes"
+            android:layout_marginBottom="8dp"
+            android:inputType="textPassword"
+
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/area_monitoring_row6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/area_monitoring_row5"
+        android:padding="5dp"
+        android:background="@drawable/curved_borders"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pests_found"
+                android:layout_centerVertical="true"
+                />
+
+            <Button
+
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/curved_borders_blue"
+                android:text="@string/ptl"
+                android:textColor="@color/white"
+                android:layout_height="30dp"
+                android:layout_width="40dp"
+                />
+
+        </RelativeLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0,1,2,3,4,5"
+            android:padding="10dp"
+            >
+
+            <TableRow>
+                <TextView
+                    android:text="@string/ar"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+
+
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_ar"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+                <TextView
+                    android:text="@string/gr"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_gr"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+                <TextView
+                    android:text="@string/ant"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_ant"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="@string/mos"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+
+
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_mos"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+                <TextView
+                    android:text="@string/hf"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_hf"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+                <TextView
+                    android:text="@string/bf"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_bf"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="@string/df"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+
+
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_df"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+                <TextView
+                    android:text="@string/ff"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_ff"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+                <TextView
+                    android:text="@string/bf"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_bf2"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="@string/nr"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+
+
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_nr"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+                <TextView
+                    android:text="@string/cb"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_cb"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+                <TextView
+                    android:text="@string/rr"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_rr"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="@string/liz"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+
+
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_liz"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+                <TextView
+                    android:text="@string/sp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_sp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+
+                    />
+
+                <TextView
+                    android:text="@string/bi"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+
+                    />
+                <EditText
+                    android:hint="0"
+                    android:id="@+id/area_bi"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:inputType="number"
+                    />
+
+            </TableRow>
+
+        </TableLayout>
+
+
+    </LinearLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:layout_below="@+id/area_monitoring_row6"
+        android:id="@+id/area_monitoring_row7"
+        android:layout_marginBottom="5dp"
+
+        >
+
+
+            <Button
+
+                android:background="@drawable/curved_borders_blue"
+                android:text="@string/photos_notes"
+                android:textColor="@color/white"
+
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                app:layout_widthPercent="31%"
+                app:layout_marginRightPercent="2.5%"
+                android:id="@+id/area_button_photos_notes"
+                android:padding="5dp"
+                />
+
+            <Button
+
+                android:id="@+id/area_button_view_summary"
+                android:background="@drawable/curved_borders_blue"
+                android:text="@string/view_device_summary"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                app:layout_widthPercent="33%"
+                app:layout_marginRightPercent="2.5%"
+
+                android:layout_toRightOf="@id/area_button_photos_notes"
+                android:padding="5dp"
+
+                />
+
+            <Button
+                android:id="@+id/area_save"
+                android:background="@drawable/curved_borders_red"
+                android:text="@string/save_next_device"
+                android:textColor="@color/white"
+                app:layout_widthPercent="31%"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:layout_toRightOf="@id/area_button_view_summary"
+                android:padding="5dp"
+
+
+                />
+
+        </android.support.percent.PercentRelativeLayout>
+
+</RelativeLayout>
+</ScrollView>

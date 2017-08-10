@@ -28,8 +28,12 @@
             android:name=".MonitoringActivity"
             android:label="@string/monitoring" />
         <activity
-            android:name="TreatmentActivity"
-            android:label="@string/treatment"/>
+            android:name=".TreatmentActivity"
+            android:label="@string/treatment" />
+        <activity
+            android:name=".AreaMonitoringActivity"
+            android:label="@string/area_monitoring"></activity>
+        <activity android:name=".DeviceMonitoringActivity"></activity>
     </application>
 
 </manifest>

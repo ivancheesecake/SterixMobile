@@ -1,24 +1,28 @@
 package com.sterix.sterixmobile;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Admin on 8/9/2017.
+ * Thanks to http://www.parcelabler.com/ for easy parcelable implementation
  */
 
-public class Monitoring {
+public class Monitoring implements Parcelable {
 
-    private String id;
+    private String id; //Create 2 ids, 1pk and 1fk
     private String location;
-    private String[] monitoringTasks;
-    private String[] status;
+    private String monitoringTask;
+    private String status;
 
     public Monitoring(){
     }
 
-    public Monitoring(String id, String location,String[] monitoringTasks,String[] status){
+    public Monitoring(String id, String location,String monitoringTasks,String status){
 
         this.id = id;
         this.location = location;
-        this.monitoringTasks = monitoringTasks;
+        this.monitoringTask = monitoringTasks;
         this.status = status;
 
     }
@@ -39,20 +43,58 @@ public class Monitoring {
         this.location = location;
     }
 
-    public String[] getMonitoringTasks() {
-        return this.monitoringTasks;
+    public String getMonitoringTask() {
+        return this.monitoringTask;
     }
 
-    public void setMonitoringTasks(String[] monitoringTasks) {
-        this.monitoringTasks = monitoringTasks;
+    public void setMonitoringTask(String monitoringTasks) {
+        this.monitoringTask = monitoringTasks;
     }
 
-    public String[] getStatus() {
+    public String getStatus() {
         return this.status;
     }
 
-    public void setStatus(String[] status) {
+    public void setStatus(String status) {
         this.status = status;
     }
+
+
+
+
+    protected Monitoring(Parcel in) {
+        id = in.readString();
+        location = in.readString();
+        monitoringTask = in.readString();
+        status = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(location);
+        dest.writeString(monitoringTask);
+        dest.writeString(status);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Monitoring> CREATOR = new Parcelable.Creator<Monitoring>() {
+        @Override
+        public Monitoring createFromParcel(Parcel in) {
+            return new Monitoring(in);
+        }
+
+        @Override
+        public Monitoring[] newArray(int size) {
+            return new Monitoring[size];
+        }
+    };
 }
+
+
 

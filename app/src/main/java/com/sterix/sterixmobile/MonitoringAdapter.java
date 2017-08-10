@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MonitoringAdapter extends RecyclerView.Adapter<MonitoringAdapter.MonitoringViewHolder>{
 
-    private List<Monitoring> monitoring;
+    private List<List<Monitoring>> monitoring;
     private Context context;
 
     public class MonitoringViewHolder extends RecyclerView.ViewHolder {
@@ -39,7 +39,7 @@ public class MonitoringAdapter extends RecyclerView.Adapter<MonitoringAdapter.Mo
         }
     }
 
-    public MonitoringAdapter(List<Monitoring> monitoring, Context context) {
+    public MonitoringAdapter(List<List<Monitoring>> monitoring, Context context) {
         this.monitoring = monitoring;
         this.context = context;
     }
@@ -55,20 +55,23 @@ public class MonitoringAdapter extends RecyclerView.Adapter<MonitoringAdapter.Mo
 
     @Override
     public void onBindViewHolder(MonitoringViewHolder holder, int position) {
-        Monitoring m = monitoring.get(position);
-        holder.monitoringLocationTextView.setText(m.getLocation());
-        holder.monitoringButton1.setText(m.getMonitoringTasks()[0]);
-        holder.monitoringButton2.setText(m.getMonitoringTasks()[1]);
-        if(m.getStatus()[0].equals("0"))
+        List<Monitoring> m = monitoring.get(position);
+        holder.monitoringLocationTextView.setText(m.get(0).getLocation());
+        holder.monitoringButton1.setText(m.get(0).getMonitoringTask());
+        holder.monitoringButton2.setText(m.get(1).getMonitoringTask());
+        holder.monitoringButton1.setTag(m.get(0));
+        holder.monitoringButton2.setTag(m.get(1));
+
+        if(m.get(0).getStatus().equals("0"))
             holder.monitoringButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.curved_borders_red));
-        else if(m.getStatus()[0].equals("1"))
+        else if(m.get(0).getStatus().equals("1"))
             holder.monitoringButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.curved_borders_yellow));
         else
             holder.monitoringButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.curved_borders_green));
 
-        if(m.getStatus()[1].equals("0"))
+        if(m.get(1).getStatus().equals("0"))
             holder.monitoringButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.curved_borders_red));
-        else if(m.getStatus()[1].equals("1"))
+        else if(m.get(1).getStatus().equals("1"))
             holder.monitoringButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.curved_borders_yellow));
         else
             holder.monitoringButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.curved_borders_green));
