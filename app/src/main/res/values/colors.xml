@@ -8,8 +8,10 @@
     -->
 
     <color name="colorPrimary">#607D8B</color>
+    <color name="colorPrimaryDisabled">#afbec5</color>
     <color name="colorPrimaryDark">#426474</color>
-    <color name="colorAccent">#71AECC</color>
+    <!--<color name="colorAccent">#71AECC</color>-->
+    <color name="colorAccent">#afbec5</color>
     <color name="white">#FFFFFF</color>
     <color name="darkGray">#333333</color>
     <color name="color_clicked">#333333</color>

@@ -5,7 +5,9 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
     <string name="submit">Submit</string>
+    <string name="save">Save</string>
 
     <string name="service_orders">Service Orders</string>
 
@@ -25,10 +27,13 @@
 
     <string name="area_monitoring">Area Monitoring</string>
     <string name="send_alert">Send Alert</string>
+    <string name="add_findings">Add Findings</string>
+    <string name="view_findings">View Findings</string>
     <string name="area_findings">Structural and/or Sanitation Finding/s or Deviation/s</string>
     <string name="area_actions">Sterix\'s Immediate action/s and Recommendations </string>
     <string name="add_photo">Add Photo</string>
     <string name="notes">Notes</string>
+    <string name="add_notes">Add Notes</string>
     <string name="pests_found">Pests found</string>
     <string name="ptl">PTL</string>
 
@@ -47,7 +52,9 @@
     <string name="rr">RR:</string>
     <string name="bi">Bi:</string>
 
-    <string name="photos_notes">View Photos and Notes</string>
+    <string name="device_monitoring">Device Monitoring</string>
+    <string name="no_device">No Device Detected.</string>
+    <string name="photos_notes">View Photos &amp; Notes</string>
     <string name="view_device_summary">View Device Summary</string>
     <string name="save_next_device">Save and go to Next Device</string>
 

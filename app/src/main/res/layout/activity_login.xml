@@ -13,7 +13,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -23,6 +24,7 @@
             android:layout_marginBottom="16dp"
             android:textSize="18dp"
             android:textAlignment="center"
+            android:id="@+id/credentials"
 
             />
 
@@ -30,7 +32,8 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_username"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme">
 
             <EditText
                 android:layout_width="match_parent"
@@ -46,7 +49,8 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme">
 
             <EditText
                 android:layout_width="match_parent"

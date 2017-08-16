@@ -1,30 +1,23 @@
 package com.sterix.sterixmobile;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 
-public class AreaMonitoringActivity extends AppCompatActivity {
+public class AreaViewFindingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_area_monitoring);
+        setContentView(R.layout.activity_area_view_finding);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Intent i = getIntent();
-        Monitoring m =  i.getParcelableExtra("AREA_MONITORING_PARCEL");
-        TextView tv_location = (TextView) findViewById(R.id.area_monitoring_location);
-        tv_location.setText(m.getLocation());
 
     }
 
@@ -52,23 +45,6 @@ public class AreaMonitoringActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
-    }
-
-
-    public void addFindings(View v){
-
-        Log.d("D","Add Findings");
-        Intent intent = new Intent(this, AreaAddFindingActivity.class);
-        startActivity(intent);
-
-    }
-
-    public void viewFindings(View v){
-
-        Log.d("D","View Findings");
-        Intent intent = new Intent(this, AreaViewFindingActivity.class);
-        startActivity(intent);
-
     }
 
 }

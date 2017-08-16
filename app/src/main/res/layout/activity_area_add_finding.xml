@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sterix.sterixmobile.AreaAddFindingActivity"
+
+    >
+
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        android:actionMenuTextColor="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_below="@id/toolbar">
+
+        <android.support.percent.PercentRelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/curved_borders_blue"
+            android:id="@+id/area_add_finding_row1"
+            >
+            <TextView
+
+                android:id="@+id/area_add_finding_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="@color/white"
+                app:layout_widthPercent="60%"
+                android:textSize="16dp"
+                >
+
+            </TextView>
+
+            <Button
+
+                android:id="@+id/area_add_finding_alert"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="@color/white"
+                app:layout_widthPercent="30%"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/curved_borders_red"
+                android:textAllCaps="false"
+                android:text="@string/send_alert"
+
+                >
+
+            </Button>
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/area_findings"
+            android:layout_below="@id/area_add_finding_row1"
+            android:id="@+id/area_add_finding_row2"
+            android:layout_marginBottom="5dp"
+            />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/area_add_finding_row3"
+            android:layout_below="@id/area_add_finding_row2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:theme="@style/AppTheme"
+            >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/area_findings_notes"
+                android:hint="@string/add_notes"
+                android:layout_marginBottom="8dp"
+                android:inputType="textMultiLine"
+                android:lines="3"
+
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/area_actions"
+            android:layout_below="@id/area_add_finding_row3"
+            android:id="@+id/area_add_finding_row4"
+            android:layout_marginBottom="5dp"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/area_add_finding_row5"
+            android:layout_below="@id/area_add_finding_row4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:theme="@style/AppTheme"
+            >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/area_findings_recommendations"
+                android:hint="@string/add_notes"
+                android:layout_marginBottom="8dp"
+                android:inputType="textMultiLine"
+                android:lines="3"
+
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/curved_borders_blue"
+            android:text="@string/add_photo"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            app:layout_widthPercent="49%"
+            app:layout_marginRightPercent="2%"
+            android:padding="5dp"
+            android:onClick="takePhoto"
+
+            android:layout_marginBottom="5dp"
+            android:id="@+id/area_add_finding_row6"
+            android:layout_below="@id/area_add_finding_row5"
+            />
+
+        <ImageView
+
+            android:id="@+id/area_add_finding_row7"
+            android:layout_below="@id/area_add_finding_row6"
+
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="centerCrop"
+
+             />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/curved_borders_blue"
+            android:text="@string/save"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            app:layout_widthPercent="49%"
+            app:layout_marginRightPercent="2%"
+            android:padding="5dp"
+            android:onClick="saveFinding"
+
+            android:id="@+id/area_add_finding_row8"
+            android:layout_below="@id/area_add_finding_row7"
+            />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+
+</ScrollView>

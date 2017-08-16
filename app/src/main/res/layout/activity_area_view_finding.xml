@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_service_orders"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_monitoring"
-    tools:context="com.sterix.sterixmobile.MonitoringActivity"
-    >
+    tools:context="com.sterix.sterixmobile.AreaViewFindingActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -21,17 +17,5 @@
         android:backgroundTint="@color/colorPrimary"
         android:actionMenuTextColor="@color/white"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/monitoring_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_below="@id/toolbar"
-        />
-
-
 
 </RelativeLayout>
