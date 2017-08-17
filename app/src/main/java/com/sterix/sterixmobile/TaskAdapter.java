@@ -61,11 +61,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         holder.statusTextView.setText(t.getStatus()); //remove this later
         holder.statusButton.setTag(t.getId());
 
-        if(t.getStatus()=="0")
+        if(t.getStatus().equals("0"))
             holder.statusButton.setBackgroundColor(this.context.getResources().getColor(R.color.red));
-        else if(t.getStatus()=="1")
+        else if(t.getStatus().equals("1"))
             holder.statusButton.setBackgroundColor(this.context.getResources().getColor(R.color.yellow));
-        else if(t.getStatus()=="2")
+        else if(t.getStatus().equals("2"))
             holder.statusButton.setBackgroundColor(this.context.getResources().getColor(R.color.green));
 
     }

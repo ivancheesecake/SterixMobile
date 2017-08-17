@@ -6,6 +6,7 @@ package com.sterix.sterixmobile;
 
 public class ServiceOrder {
 
+    private String id;
     private String date;
     private String location;
     private String order;
@@ -13,8 +14,9 @@ public class ServiceOrder {
     public ServiceOrder(){
     }
 
-    public ServiceOrder(String date, String location, String order){
+    public ServiceOrder(String id, String date, String location, String order){
 
+        this.id = id;
         this.date = date;
         this.location = location;
         this.order = order;
@@ -45,4 +47,11 @@ public class ServiceOrder {
         return this.order;
     }
 
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

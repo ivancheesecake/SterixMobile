@@ -1,7 +1,10 @@
 package com.sterix.sterixmobile;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -21,8 +24,11 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ServiceOrdersActivity extends AppCompatActivity {
 
@@ -70,6 +76,7 @@ public class ServiceOrdersActivity extends AppCompatActivity {
 //                toast.show();
 
                 Intent serviceOrdersIntent = new Intent(context, TasksActivity.class);
+                serviceOrdersIntent.putExtra("SERVICE_ORDER_ID",so.getId());
                 startActivity(serviceOrdersIntent);
                 //finish();
 
@@ -79,42 +86,65 @@ public class ServiceOrdersActivity extends AppCompatActivity {
     }
 
 
-    private void prepareServiceOrders() {
+    private void prepareServiceOrders(){
 
         // Fetch data from server
 
-        so = new ServiceOrder("Jul 31", "Nestle Cabuyao", "Regular Inspection");
-        serviceOrders.add(so);
+        SQLiteDatabase database = new SterixDBHelper(this).getWritableDatabase();
+        ContentValues values = new ContentValues();
 
-        so = new ServiceOrder("Aug 7", "Nestle Cabuyao", "Regular Inspection");
-        serviceOrders.add(so);
+        String[] projection = {
+                SterixContract.ServiceOrder._ID,
+                SterixContract.ServiceOrder.COLUMN_SERVICE_TYPE,
+                SterixContract.ServiceOrder.COLUMN_LOCATION,
+                SterixContract.ServiceOrder.COLUMN_START_DATE,
+                SterixContract.ServiceOrder.COLUMN_START_TIME,
+                SterixContract.ServiceOrder.COLUMN_END_DATE,
+                SterixContract.ServiceOrder.COLUMN_END_TIME,
+                SterixContract.ServiceOrder.COLUMN_STATUS
 
-        so = new ServiceOrder("Aug 14", "Nestle Cabuyao", "Treatment");
-        serviceOrders.add(so);
+        };
 
-        so = new ServiceOrder("Aug 7", "Nestle Cabuyao", "Regular Inspection");
-        serviceOrders.add(so);
+        String sortOrder = SterixContract.ServiceOrder._ID +" ASC";
 
-        so = new ServiceOrder("Aug 14", "Nestle Cabuyao", "Treatment");
-        serviceOrders.add(so);
+        Cursor cursor = database.query(
+                SterixContract.ServiceOrder.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
 
-        so = new ServiceOrder("Aug 7", "Nestle Cabuyao", "Regular Inspection");
-        serviceOrders.add(so);
+        while(cursor.moveToNext()){
 
-        so = new ServiceOrder("Aug 14", "Nestle Cabuyao", "Treatment");
-        serviceOrders.add(so);
+            //SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+            //String month_name = month_date.format(date);
 
-        so = new ServiceOrder("Aug 7", "Nestle Cabuyao", "Regular Inspection");
-        serviceOrders.add(so);
+            String date_formatted = "";
 
-        so = new ServiceOrder("Aug 14", "Nestle Cabuyao", "Treatment");
-        serviceOrders.add(so);
+            String id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrder._ID));
+            String location = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrder.COLUMN_LOCATION));
+            String type = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrder.COLUMN_SERVICE_TYPE));
+            String date = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrder.COLUMN_START_DATE));
+            //date = date.replace("-","/");
 
-        so = new ServiceOrder("Aug 7", "Nestle Cabuyao", "Regular Inspection");
-        serviceOrders.add(so);
+            try {
+                Log.d("HEY",date);
+                Date parse = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                date_formatted = new SimpleDateFormat("MMM dd").format(parse);
 
-        so = new ServiceOrder("Aug 14", "Nestle Cabuyao", "Treatment");
-        serviceOrders.add(so);
+
+            }
+            catch(Exception e){
+                date_formatted = "NULL";
+            }
+
+            so = new ServiceOrder(id,date_formatted, location, type);
+            serviceOrders.add(so);
+        }
+
 
         soAdapter.notifyDataSetChanged();
 

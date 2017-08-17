@@ -31,7 +31,7 @@
         android:paddingRight="16dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
@@ -46,7 +46,7 @@
             android:id="@+id/service_order_order"
             android:textColor="@color/darkGray"
             android:textSize="16dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
 

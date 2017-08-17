@@ -1,6 +1,8 @@
 package com.sterix.sterixmobile;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -39,7 +41,78 @@ public class LoginActivity extends AppCompatActivity {
 
         // Check if user is logged in
 
+        // Insert values for database
+
+        //insertToDB();
+
+
     }
+
+    public void insertToDB(){
+
+        SQLiteDatabase database = new SterixDBHelper(this).getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(SterixContract.ServiceOrder.COLUMN_SERVICE_TYPE,"Monitoring");
+        values.put(SterixContract.ServiceOrder.COLUMN_LOCATION,"Jollibee Junction");
+        values.put(SterixContract.ServiceOrder.COLUMN_START_DATE,"2017-07-26");
+        values.put(SterixContract.ServiceOrder.COLUMN_START_TIME,"00:00:00");
+        values.put(SterixContract.ServiceOrder.COLUMN_END_DATE,"2017-07-26");
+        values.put(SterixContract.ServiceOrder.COLUMN_END_TIME,"00:00:00");
+        values.put(SterixContract.ServiceOrder.COLUMN_STATUS,"Accepted/In Progress");
+
+        database.insert(SterixContract.ServiceOrder.TABLE_NAME, null, values);
+
+        values.put(SterixContract.ServiceOrder.COLUMN_SERVICE_TYPE,"Monitoring");
+        values.put(SterixContract.ServiceOrder.COLUMN_LOCATION,"Bonchon Solenad 3");
+        values.put(SterixContract.ServiceOrder.COLUMN_START_DATE,"2017-12-22");
+        values.put(SterixContract.ServiceOrder.COLUMN_START_TIME,"00:00:00");
+        values.put(SterixContract.ServiceOrder.COLUMN_END_DATE,"2017-07-26");
+        values.put(SterixContract.ServiceOrder.COLUMN_END_TIME,"00:00:00");
+        values.put(SterixContract.ServiceOrder.COLUMN_STATUS,"Accepted/In Progress");
+
+        database.insert(SterixContract.ServiceOrder.TABLE_NAME, null, values);
+
+
+        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"1");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Login at Guard House");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"6:00 AM");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"0");
+        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
+
+        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"1");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Prepare Materials");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"6:10 AM");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"0");
+        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
+
+        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"1");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Conduct Monitoring");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"7:00 AM");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"0");
+        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
+
+        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"2");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Login at Guard House");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"3:00 PM");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"0");
+        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
+
+        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"2");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Prepare Materials");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"3:10 PM");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"0");
+        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
+
+        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"2");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Conduct Monitoring");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"4:00 PM");
+        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"0");
+        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
+
+
+    }
+
 
     public void login(View b){
 
@@ -62,11 +135,18 @@ public class LoginActivity extends AppCompatActivity {
         Log.d("Username",username);
         Log.d("Password",password);
 
+        // Intent agad para walang login
+
+        Intent serviceOrdersIntent = new Intent(getApplicationContext(), ServiceOrdersActivity.class);
+        startActivity(serviceOrdersIntent);
+        finish();
+
 
         // Request a string response from the provided URL.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://192.168.1.17/Sterix/login.php";
-
+        String url ="http://10.0.63.39/SterixBackend/login.php";
+//        String url ="http://192.168.1.17/Sterix/login.php";
+/*
         final TextView mTextView = (TextView) findViewById(R.id.credentials);
 
         JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
@@ -99,32 +179,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
-
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        // Display the first 500 characters of the response string.
-//                        mTextView.setText("Response is: "+ response);
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                mTextView.setText("That didn't work!");
-//            }
-//        });
-//        // Add the request to the RequestQueue.
         queue.add(request_json);
-
+*/
         // Perform authentication on server
 
         // If successful login, intent to next activity and destroy login activity
 
         // Is login retained? Forever?
-
-
-
 
     }
 

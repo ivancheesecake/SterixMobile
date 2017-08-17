@@ -1,7 +1,10 @@
 package com.sterix.sterixmobile;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -24,6 +27,7 @@ public class TasksActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TaskAdapter taskAdapter;
     private Task t;
+    public String service_order_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,12 @@ public class TasksActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Intent i = getIntent();
+        service_order_id =  i.getStringExtra("SERVICE_ORDER_ID");
+
+        Log.d("HEY",service_order_id);
+
 
         recyclerView = (RecyclerView) findViewById(R.id.tasks_recycler_view);
 
@@ -86,22 +96,54 @@ public class TasksActivity extends AppCompatActivity {
 
     private void prepareTasks() {
 
+
         // Fetch data from server
 
-        t = new Task("0","6:00 AM", "Login at guard house", "0","generic");
+        SQLiteDatabase database = new SterixDBHelper(this).getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        String[] projection = {
+                SterixContract.ServiceOrderTask._ID,
+                SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,
+                SterixContract.ServiceOrderTask.COLUMN_TASK,
+                SterixContract.ServiceOrderTask.COLUMN_START_TIME,
+                SterixContract.ServiceOrderTask.COLUMN_STATUS
+
+        };
+
+        String selection = SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID +" = ?";
+        String selectionArgs[] = {service_order_id};
+        String sortOrder = SterixContract.ServiceOrderTask._ID +" ASC";
+
+        Cursor cursor = database.query(
+                SterixContract.ServiceOrderTask.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+
+        String id="",time="",task="",status="";
+
+        while(cursor.moveToNext()){
+
+            id= cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderTask._ID));
+            time = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderTask.COLUMN_START_TIME));
+            task = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderTask.COLUMN_TASK));
+            status = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderTask.COLUMN_STATUS));
+
+            Log.d("Prepare Tasks - Status",status);
+            t = new Task(id,time, task, status,"generic");
+            tasks.add(t);
+
+        }
+
+        t = new Task(id,time, task, status,"monitoring");
+        tasks.remove(tasks.size()-1);
         tasks.add(t);
 
-        t = new Task("1","6:10 AM", "Prepare Materials", "0","generic");
-        tasks.add(t);
-
-        t = new Task("2","7:00 AM", "Conduct pre Treatment Monitoring", "0","monitoring");
-        tasks.add(t);
-
-        t = new Task("3","9:00 AM", "Conduct Treatment", "0","treatment");
-        tasks.add(t);
-
-        t = new Task("4","3:00 PM", "Conduct post treatment monitoring. ", "0","monitoring");
-        tasks.add(t);
 
         taskAdapter.notifyDataSetChanged();
 
@@ -112,6 +154,10 @@ public class TasksActivity extends AppCompatActivity {
         Task currentTask;
         String id = v.getTag().toString();
 
+        SQLiteDatabase db = new SterixDBHelper(this).getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+
         // I'm going to do the inefficient thing
 
         for(int i=0; i<tasks.size();i++){
@@ -121,6 +167,22 @@ public class TasksActivity extends AppCompatActivity {
 
                 currentTask.setStatus(Integer.toString(((Integer.parseInt(currentTask.getStatus())+1)%3)));
                 tasks.set(i,currentTask);
+
+                values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS, currentTask.getStatus());
+
+                String selection = SterixContract.ServiceOrderTask._ID + "= ?";
+                String[] selectionArgs = {currentTask.getId()};
+
+                int count = db.update(
+                        SterixContract.ServiceOrderTask.TABLE_NAME,
+                        values,
+                        selection,
+                        selectionArgs);
+
+
+                Log.d("count",Integer.toString(count));
+                Log.d("status",currentTask.getStatus());
+
 
                 if(currentTask.getStatus().equals("0")) {
                     v.setBackgroundColor(getResources().getColor(R.color.red));
@@ -146,6 +208,7 @@ public class TasksActivity extends AppCompatActivity {
 //        Toast toast = Toast.makeText(context, text, duration);
 //        toast.show();
 
+        db.close();
         }
 
     public void proceedToAcknowledgement(View v){
