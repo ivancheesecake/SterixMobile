@@ -1,6 +1,9 @@
 package com.sterix.sterixmobile;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +27,8 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DeviceMonitoringActivity extends AppCompatActivity {
 
@@ -33,23 +38,42 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
     CameraSource cameraSource;
     SurfaceView cameraView;
     TextView barcodeInfo;
+    String service_order_location,service_order_id,location_area_id;
+    ArrayList<HashMap<String,String>> devices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_monitoring);
 
+        Intent i = getIntent();
+        Monitoring m =  i.getParcelableExtra("DEVICE_MONITORING_PARCEL");
+        service_order_location = i.getStringExtra("SERVICE_ORDER_LOCATION");
+        service_order_id = i.getStringExtra("SERVICE_ORDER_ID");
+        location_area_id = i.getStringExtra("LOCATION_AREA_ID");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setSubtitle(service_order_location);
         setSupportActionBar(toolbar);
 
         // Fetch data from previous activity
-//
-//        Intent i = getIntent();
-//        Monitoring m =  i.getParcelableExtra("DEVICE_MONITORING_PARCEL");
-//        TextView tv_location = (TextView) findViewById(R.id.device_monitoring_location);
-//        tv_location.setText(m.getLocation());
 
-        //
+        TextView tv_location = (TextView) findViewById(R.id.device_monitoring_location);
+        tv_location.setText(m.getLocation());
+
+        // Fetch all devices
+
+        //Log.d("HEY",service_order_id);
+        //Log.d("HEY",location_area_id);
+
+        devices = fetchDevices(service_order_id,location_area_id);
+
+        for(int j=0; j<devices.size();j++){
+
+            Log.d("DEVICE",devices.get(j).get("device_code"));
+
+        }
+
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -183,18 +207,40 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
                 if (barcodes.size() != 0) {
                     barcodeInfo.post(new Runnable() {    // Use the post method of the TextView
                         public void run() {
-                            barcodeInfo.setText(    // Update the TextView
-                                    barcodes.valueAt(0).displayValue
-                            );
 
-                            cameraSource.stop();
-                            barcodeDetector.release();
-                            cameraView.setVisibility(View.GONE);
+                            for(int a = 0; a< devices.size(); a++){
+
+                                Log.d("A", devices.get(a).get("device_code"));
+                                Log.d("B", barcodes.valueAt(0).displayValue);
+//                                Log.d("C", barcodes.valueAt(0).displayValue.equals(devices.get(a).get("device_code")));
 
 
-                            Toast toast = Toast.makeText(getApplicationContext(),"Device "+barcodes.valueAt(0).displayValue+" was detected!", Toast.LENGTH_SHORT);
-                            toast.show();
-                            enableForms();
+                                if(devices.get(a).get("device_code").equals(barcodes.valueAt(0).displayValue)){
+
+                                    Log.d("HERE", barcodes.valueAt(0).displayValue);
+
+                                    barcodeInfo.setText(    // Update the TextView
+                                            barcodes.valueAt(0).displayValue
+                                    );
+
+
+                                    cameraSource.stop();
+                                    barcodeDetector.release();
+                                    cameraView.setVisibility(View.GONE);
+
+
+                                    Toast toast = Toast.makeText(getApplicationContext(),"Device "+barcodes.valueAt(0).displayValue+" was detected!", Toast.LENGTH_SHORT);
+                                    toast.show();
+                                    enableForms();
+
+                                    break;
+                                }
+                                else{
+                                    Log.d("HUHU","HUHUHU");
+                                }
+
+                            }
+
                         }
                     });
                 }
@@ -267,6 +313,67 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         save.setBackgroundResource(R.drawable.curved_borders_blue);
 
 
+    }
+
+    public ArrayList <HashMap<String,String>> fetchDevices(String service_order_id, String location_area_id){
+
+        ArrayList out = new ArrayList<HashMap<String,String>>();
+
+        SQLiteDatabase database = new SterixDBHelper(this).getWritableDatabase();
+
+        String[] projection = {
+                SterixContract.DeviceMonitoring._ID,
+                SterixContract.DeviceMonitoring.COLUMN_SERVICE_ORDER_ID,
+                SterixContract.DeviceMonitoring.COLUMN_CLIENT_LOCATION_AREA_ID,
+                SterixContract.DeviceMonitoring.COLUMN_DEVICE_CODE,
+                SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION_ID,
+                SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION,
+                SterixContract.DeviceMonitoring.COLUMN_ACTIVITY_ID,
+                SterixContract.DeviceMonitoring.COLUMN_ACTIVITY,
+
+        };
+
+        String selection = SterixContract.DeviceMonitoring.COLUMN_SERVICE_ORDER_ID +" = ? and "+ SterixContract.DeviceMonitoring.COLUMN_CLIENT_LOCATION_AREA_ID +" = ?";
+        String selectionArgs[] = {service_order_id,location_area_id};
+        String sortOrder = SterixContract.ServiceOrderArea._ID +" ASC";
+
+        Cursor cursor = database.query(
+                SterixContract.DeviceMonitoring.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+
+        while (cursor.moveToNext()) {
+
+            String id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoring._ID));
+            String so_id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoring.COLUMN_SERVICE_ORDER_ID));
+            String loc_id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoring.COLUMN_CLIENT_LOCATION_AREA_ID));
+            String dcode = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CODE));
+            String dc_id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION_ID));
+            String dc = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION));
+            String a_id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY_ID));
+            String a = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY));
+
+            HashMap<String,String> temp = new HashMap<>();
+
+            temp.put("id",id);
+            temp.put("service_order_id",so_id);
+            temp.put("client_location_area_id",loc_id);
+            temp.put("device_code",dcode);
+            temp.put("device_condition_id",dc_id);
+            temp.put("device_condition",dc);
+            temp.put("activity_id",a_id);
+            temp.put("activity",a);
+
+            out.add(temp);
+
+        }
+
+        return out;
     }
 
 }

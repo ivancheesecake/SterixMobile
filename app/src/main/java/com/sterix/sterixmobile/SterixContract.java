@@ -52,4 +52,74 @@ public final class SterixContract {
 
     }
 
+    public static class ServiceOrderArea implements BaseColumns{
+
+        public static final String TABLE_NAME = "service_order_area";
+        public static final String COLUMN_SERVICE_ORDER_ID = "service_order_id";
+        public static final String COLUMN_CLIENT_LOCATION_AREA_ID = "client_location_area_id";
+        public static final String COLUMN_CLIENT_LOCATION_AREA = "client_location_area";
+        public static final String COLUMN_STATUS = "status";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                TABLE_NAME + " (" +
+                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_SERVICE_ORDER_ID + " TEXT, " +
+                COLUMN_CLIENT_LOCATION_AREA_ID + " TEXT, " +
+                COLUMN_CLIENT_LOCATION_AREA + " TEXT, " +
+                COLUMN_STATUS + " TEXT" + ")";
+    }
+
+    public static class DeviceActivity implements BaseColumns{
+
+        public static final String TABLE_NAME = "device_activity";
+        public static final String COLUMN_DEVICE_ACTIVITY_ID = "device_activity_id";
+        public static final String COLUMN_DEVICE_ACTIVITY_NAME = "device_activity_name";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                TABLE_NAME + " (" +
+                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_DEVICE_ACTIVITY_ID + " TEXT, " +
+                COLUMN_DEVICE_ACTIVITY_NAME + " TEXT " + ")";
+
+    }
+
+    public static class DeviceCondition implements BaseColumns{
+
+        public static final String TABLE_NAME = "device_condition";
+        public static final String COLUMN_CONDITION_ID = "condition_id";
+        public static final String COLUMN_CONDITION_NAME = "condition_name";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                TABLE_NAME + " (" +
+                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_CONDITION_ID + " TEXT, " +
+                COLUMN_CONDITION_NAME + " TEXT " + ")";
+
+    }
+
+    public static class DeviceMonitoring implements BaseColumns{
+
+        public static final String TABLE_NAME = "device_monitoring";
+
+        public static final String COLUMN_SERVICE_ORDER_ID = "service_order_id";
+        public static final String COLUMN_CLIENT_LOCATION_AREA_ID = "client_location_area_id";
+        public static final String COLUMN_DEVICE_CODE = "device_code";
+        public static final String COLUMN_DEVICE_CONDITION_ID = "device_condition_id";
+        public static final String COLUMN_DEVICE_CONDITION = "device_condition";
+        public static final String COLUMN_ACTIVITY_ID = "activity_id";
+        public static final String COLUMN_ACTIVITY = "activity";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                TABLE_NAME + " (" +
+                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_SERVICE_ORDER_ID + " TEXT, " +
+                COLUMN_CLIENT_LOCATION_AREA_ID + " TEXT, " +
+                COLUMN_DEVICE_CODE + " TEXT, " +
+                COLUMN_DEVICE_CONDITION_ID + " TEXT, " +
+                COLUMN_DEVICE_CONDITION + " TEXT, " +
+                COLUMN_ACTIVITY_ID + " TEXT, " +
+                COLUMN_ACTIVITY + " TEXT " + ")";
+
+    }
+
 }

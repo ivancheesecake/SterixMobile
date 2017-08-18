@@ -1,40 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/main_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_tasks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sterix.sterixmobile.TasksActivity">
+    >
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
+        android:id="@+id/activity_tasks"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:titleTextColor="@color/white"
-        android:backgroundTint="@color/colorPrimary"
-        android:actionMenuTextColor="@color/white"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+        android:layout_height="match_parent"
+        >
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/tasks_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_below="@id/toolbar"
-        />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@color/white"
+            android:backgroundTint="@color/colorPrimary"
+            android:actionMenuTextColor="@color/white"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
 
-    <!--<Button-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/next"-->
-        <!--android:onClick="proceedToAcknowledgement"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_below="@id/toolbar"/>-->
+        <!--<android.support.percent.PercentRelativeLayout-->
+            <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:paddingTop="5dp"-->
+            <!--android:paddingBottom="5dp"-->
+            <!--android:paddingRight="5dp"-->
+            <!--android:background="@drawable/curved_borders_blue"-->
+            <!--android:id="@+id/location_box"-->
+            <!--android:layout_below="@id/toolbar"-->
+            <!--android:layout_margin="5dp"-->
+            <!--&gt;-->
 
-</RelativeLayout>
+            <!--<TextView-->
+
+                <!--android:id="@+id/tasks_location"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="16dp"-->
+                <!--android:textColor="@color/white"-->
+                <!--app:layout_widthPercent="80%"-->
+                <!--android:textSize="16dp"-->
+
+                <!--&gt;-->
+
+        <!--</TextView>-->
+
+        <!--</android.support.percent.PercentRelativeLayout>-->
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/tasks_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_below="@id/toolbar"
+            />
+
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/next"-->
+            <!--android:onClick="proceedToAcknowledgement"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_below="@id/toolbar"/>-->
+
+
+    </RelativeLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="@dimen/my_fab_size"
+        android:layout_height="@dimen/my_fab_size"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:padding="20sp"
+        android:src="@drawable/ic_assignment_black_24dp"
+        app:layout_anchor="@id/activity_tasks"
+        app:layout_anchorGravity="bottom|right|end"
+        android:tint="@color/white"
+        app:backgroundTint="@color/yellow"
+        app:fabSize="normal"
+        android:onClick="proceedToMonitoring"/>
+
+</android.support.design.widget.CoordinatorLayout>

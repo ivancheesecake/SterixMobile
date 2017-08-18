@@ -16,32 +16,53 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class TasksActivity extends AppCompatActivity {
 
     private List<Task> tasks = new ArrayList<>();
     private RecyclerView recyclerView;
+    private TextView locationTextView;
     private TaskAdapter taskAdapter;
     private Task t;
-    public String service_order_id;
+    public String service_order_id,service_order_location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasks);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         Intent i = getIntent();
         service_order_id =  i.getStringExtra("SERVICE_ORDER_ID");
+        service_order_location =  i.getStringExtra("SERVICE_ORDER_LOCATION");
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setSubtitle(service_order_location);
+
+
+        setSupportActionBar(toolbar);
 
         Log.d("HEY",service_order_id);
 
+//        locationTextView = (TextView) findViewById(R.id.tasks_location);
+//        locationTextView.setText(service_order_location);
 
         recyclerView = (RecyclerView) findViewById(R.id.tasks_recycler_view);
 
@@ -54,43 +75,6 @@ public class TasksActivity extends AppCompatActivity {
 
         prepareTasks();
 
-        ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-
-                t = tasks.get(position);
-
-                Log.d("Time",t.getTime());
-                Log.d("Task",t.getTask());
-
-                if(t.getType().equals("monitoring")){
-
-                    Log.d("Task","Monitoring");
-                    Intent monitoringIntent = new Intent(getApplicationContext(), MonitoringActivity.class);
-                    startActivity(monitoringIntent);
-                }
-                else if(t.getType().equals("treatment")){
-
-                    Log.d("Task","Treatment");
-                    Intent treatmentIntent = new Intent(getApplicationContext(), TreatmentActivity.class);
-                    startActivity(treatmentIntent);
-                }
-
-
-
-//                Context context = getApplicationContext();
-//                CharSequence text = so.getDate();
-//                int duration = Toast.LENGTH_SHORT;
-//
-//                Toast toast = Toast.makeText(context, text, duration);
-//                toast.show();
-
-                //Intent serviceOrdersIntent = new Intent(context, TasksActivity.class);
-                //startActivity(serviceOrdersIntent);
-                //finish();
-
-            }
-        });
 
     }
 
@@ -183,6 +167,11 @@ public class TasksActivity extends AppCompatActivity {
                 Log.d("count",Integer.toString(count));
                 Log.d("status",currentTask.getStatus());
 
+                // Perform change locally
+
+                // Perform change on server
+
+                updateStatusOnServer(currentTask.getId(),currentTask.getStatus());
 
                 if(currentTask.getStatus().equals("0")) {
                     v.setBackgroundColor(getResources().getColor(R.color.red));
@@ -246,6 +235,55 @@ public class TasksActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    public void proceedToMonitoring(View v){
+
+        Intent monitoringIntent = new Intent(getApplicationContext(), MonitoringActivity.class);
+        monitoringIntent.putExtra("SERVICE_ORDER_ID",service_order_id);
+        monitoringIntent.putExtra("SERVICE_ORDER_LOCATION",service_order_location);
+        startActivity(monitoringIntent);
+
+    }
+
+    public void updateStatusOnServer(String task_id,String status){
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="http://10.0.63.39/SterixBackend/updateTaskStatus.php";
+
+        HashMap params = new HashMap<String,String>();
+        params.put("task_id",task_id);
+        params.put("status",status);
+
+        JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if(response.get("success").toString().equals("true")) {
+                                Toast toast = Toast.makeText(getApplicationContext(),"Status successfully updated!", Toast.LENGTH_SHORT);
+                                toast.show();
+
+                            }
+                            else{
+
+                                Toast toast = Toast.makeText(getApplicationContext(),"Cannot connect to server.", Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        });
+
+        queue.add(request_json);
+
     }
 
 }

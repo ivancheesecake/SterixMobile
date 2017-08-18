@@ -77,6 +77,7 @@ public class ServiceOrdersActivity extends AppCompatActivity {
 
                 Intent serviceOrdersIntent = new Intent(context, TasksActivity.class);
                 serviceOrdersIntent.putExtra("SERVICE_ORDER_ID",so.getId());
+                serviceOrdersIntent.putExtra("SERVICE_ORDER_LOCATION",so.getLocation());
                 startActivity(serviceOrdersIntent);
                 //finish();
 

@@ -1,6 +1,9 @@
 package com.sterix.sterixmobile;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,6 +26,7 @@ public class MonitoringActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MonitoringAdapter monitoringAdapter;
     private Monitoring m,n;
+    public String service_order_id,service_order_location;
 
 
     @Override
@@ -30,7 +34,12 @@ public class MonitoringActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitoring);
 
+        Intent i = getIntent();
+        service_order_id =  i.getStringExtra("SERVICE_ORDER_ID");
+        service_order_location =  i.getStringExtra("SERVICE_ORDER_LOCATION");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setSubtitle(service_order_location);
         setSupportActionBar(toolbar);
 
         recyclerView = (RecyclerView) findViewById(R.id.monitoring_recycler_view);
@@ -75,41 +84,58 @@ public class MonitoringActivity extends AppCompatActivity {
 
         // Fetch data from server
 
-        m = new Monitoring("0","Outer Perimeter","Review Area Report","2");
-        n = new Monitoring("0","Outer Perimeter","Review Devices","2");
-        monitoring_temp = new ArrayList<>();
-        monitoring_temp.add(m);
-        monitoring_temp.add(n);
-        monitoring.add(monitoring_temp);
+        SQLiteDatabase database = new SterixDBHelper(this).getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        String[] projection = {
+                SterixContract.ServiceOrderArea._ID,
+                SterixContract.ServiceOrderArea.COLUMN_SERVICE_ORDER_ID,
+                SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA_ID,
+                SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA,
+                SterixContract.ServiceOrderArea.COLUMN_STATUS
+
+        };
+
+        String selection = SterixContract.ServiceOrderArea.COLUMN_SERVICE_ORDER_ID +" = ?";
+        String selectionArgs[] = {service_order_id};
+        String sortOrder = SterixContract.ServiceOrderArea._ID +" ASC";
+
+        Cursor cursor = database.query(
+                SterixContract.ServiceOrderArea.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
 
 
-        m = new Monitoring("1","Warehouse 1","Review Area Report", "2");
-        n = new Monitoring("1","Warehouse 1","Review Devices","2");
-        monitoring_temp = new ArrayList<>();
-        monitoring_temp.add(m);
-        monitoring_temp.add(n);
-        monitoring.add(monitoring_temp);
+        while (cursor.moveToNext()) {
 
-        m = new Monitoring("2","Warehouse 2","Review Area Report","1");
-        n = new Monitoring("2","Warehouse 2","Start Device Monitoring","0");
-        monitoring_temp = new ArrayList<>();
-        monitoring_temp.add(m);
-        monitoring_temp.add(n);
-        monitoring.add(monitoring_temp);
+            String id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderArea._ID));
+            String so_id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderArea.COLUMN_SERVICE_ORDER_ID));
+            String location_area_id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA_ID));
+            String location_area = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA));
+            String status = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderArea.COLUMN_STATUS));
 
-        m = new Monitoring("3","Production Area","Start Area Monitoring","0");
-        n = new Monitoring("3","Production Area","Start Device Monitoring","0");
-        monitoring_temp = new ArrayList<>();
-        monitoring_temp.add(m);
-        monitoring_temp.add(n);
-        monitoring.add(monitoring_temp);
+            m = new Monitoring(id,location_area,"Start Area Monitoring",status,so_id,location_area_id);
+            n = new Monitoring(id,location_area,"Start Device Monitoring",status,so_id,location_area_id);
 
-        m = new Monitoring("4","Pantry","Start Area Monitoring","0");
-        n = new Monitoring("4","Pantry","Start Device Monitoring", "0");
-        monitoring_temp = new ArrayList<>();
-        monitoring_temp.add(m);
-        monitoring_temp.add(n);
-        monitoring.add(monitoring_temp);
+            monitoring_temp = new ArrayList<>();
+            monitoring_temp.add(m);
+            monitoring_temp.add(n);
+            monitoring.add(monitoring_temp);
+
+        }
+
+
+//        m = new Monitoring("0","Outer Perimeter","Review Area Report","2");
+//        n = new Monitoring("0","Outer Perimeter","Review Devices","2");
+//        monitoring_temp = new ArrayList<>();
+//        monitoring_temp.add(m);
+//        monitoring_temp.add(n);
+//        monitoring.add(monitoring_temp);
 
         monitoringAdapter.notifyDataSetChanged();
 
@@ -119,16 +145,22 @@ public class MonitoringActivity extends AppCompatActivity {
 
         Monitoring m = (Monitoring) v.getTag();
         Log.d("HEY",m.getLocation());
+        Log.d("HEY",m.getLocation_area_id());
+        Log.d("HEY",m.getService_order_id());
 
         if(m.getMonitoringTask().equals("Start Area Monitoring")) {
             Intent areaMonitoringIntent = new Intent(getApplicationContext(), AreaMonitoringActivity.class);
             areaMonitoringIntent.putExtra("AREA_MONITORING_PARCEL", m);
+            areaMonitoringIntent.putExtra("SERVICE_ORDER_LOCATION", service_order_location);
             startActivity(areaMonitoringIntent);
         }
 
         else if(m.getMonitoringTask().equals("Start Device Monitoring")) {
             Intent areaMonitoringIntent = new Intent(getApplicationContext(), DeviceMonitoringActivity.class);
             areaMonitoringIntent.putExtra("DEVICE_MONITORING_PARCEL", m);
+            areaMonitoringIntent.putExtra("LOCATION_AREA_ID", m.getLocation_area_id());
+            areaMonitoringIntent.putExtra("SERVICE_ORDER_ID", m.getService_order_id());
+            areaMonitoringIntent.putExtra("SERVICE_ORDER_LOCATION", service_order_location);
             startActivity(areaMonitoringIntent);
         }
     }

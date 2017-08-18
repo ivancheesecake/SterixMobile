@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SterixDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 8;
     public static final String DATABASE_NAME = "sterix_database";
 
     public SterixDBHelper(Context context) {
@@ -21,6 +21,10 @@ public class SterixDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SterixContract.ServiceOrder.CREATE_TABLE);
         sqLiteDatabase.execSQL(SterixContract.ServiceOrderTask.CREATE_TABLE);
+        sqLiteDatabase.execSQL(SterixContract.ServiceOrderArea.CREATE_TABLE);
+        sqLiteDatabase.execSQL(SterixContract.DeviceActivity.CREATE_TABLE);
+        sqLiteDatabase.execSQL(SterixContract.DeviceCondition.CREATE_TABLE);
+        sqLiteDatabase.execSQL(SterixContract.DeviceMonitoring.CREATE_TABLE);
     }
 
     @Override

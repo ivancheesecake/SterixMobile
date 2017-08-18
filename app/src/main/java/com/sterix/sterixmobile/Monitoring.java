@@ -14,6 +14,8 @@ public class Monitoring implements Parcelable {
     private String location;
     private String monitoringTask;
     private String status;
+    private String service_order_id;
+    private String location_area_id;
 
     public Monitoring(){
     }
@@ -25,6 +27,25 @@ public class Monitoring implements Parcelable {
         this.monitoringTask = monitoringTasks;
         this.status = status;
 
+    }
+
+    public Monitoring(String id, String location,String monitoringTasks,String status,String service_order_id, String location_area_id){
+
+        this.id = id;
+        this.location = location;
+        this.monitoringTask = monitoringTasks;
+        this.status = status;
+        this.location_area_id = location_area_id;
+        this.service_order_id = service_order_id;
+
+    }
+
+    public String getLocation_area_id() {
+        return this.location_area_id;
+    }
+
+    public void setLocation_area_id(String location_area_id) {
+        this.location_area_id = location_area_id;
     }
 
     public String getId() {
@@ -59,8 +80,13 @@ public class Monitoring implements Parcelable {
         this.status = status;
     }
 
+    public String getService_order_id() {
+        return this.service_order_id;
+    }
 
-
+    public void setService_order_id(String service_order_id) {
+        this.service_order_id = service_order_id;
+    }
 
     protected Monitoring(Parcel in) {
         id = in.readString();
