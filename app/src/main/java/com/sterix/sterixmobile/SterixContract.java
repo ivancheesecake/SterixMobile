@@ -108,6 +108,9 @@ public final class SterixContract {
         public static final String COLUMN_DEVICE_CONDITION = "device_condition";
         public static final String COLUMN_ACTIVITY_ID = "activity_id";
         public static final String COLUMN_ACTIVITY = "activity";
+        public static final String COLUMN_IMAGE = "image";
+        public static final String COLUMN_NOTES = "notes";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + " (" +
@@ -118,8 +121,10 @@ public final class SterixContract {
                 COLUMN_DEVICE_CONDITION_ID + " TEXT, " +
                 COLUMN_DEVICE_CONDITION + " TEXT, " +
                 COLUMN_ACTIVITY_ID + " TEXT, " +
-                COLUMN_ACTIVITY + " TEXT " + ")";
-
+                COLUMN_ACTIVITY + " TEXT, "+
+                COLUMN_IMAGE + " TEXT, "+
+                COLUMN_NOTES + " TEXT, "+
+                COLUMN_TIMESTAMP + " TEXT " + ")";
     }
 
     public static class AreaFinding implements BaseColumns{
@@ -145,6 +150,42 @@ public final class SterixContract {
                 COLUMN_RECOMMENDATIONS + " TEXT, " +
                 COLUMN_TIMESTAMP + " TEXT " + ")";
 
+    }
+
+    public static class AreaMonitoringPest implements BaseColumns{
+
+        public static final String TABLE_NAME = "area_monitoring_pest";
+
+        public static final String COLUMN_SERVICE_ORDER_ID = "service_order_id";
+        public static final String COLUMN_SERVICE_ORDER_AREA_ID = "service_order_area_id";
+        public static final String COLUMN_PEST_ID = "pest_id";
+        public static final String COLUMN_NUMBER = "number";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                TABLE_NAME + " (" +
+                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_SERVICE_ORDER_ID + " TEXT, " +
+                COLUMN_SERVICE_ORDER_AREA_ID + " TEXT, " +
+                COLUMN_PEST_ID + " TEXT, " +
+                COLUMN_NUMBER + " INT " + ")";
+    }
+
+    public static class DeviceMonitoringPest implements BaseColumns{
+
+        public static final String TABLE_NAME = "device_monitoring_pest";
+
+        public static final String COLUMN_SERVICE_ORDER_ID = "service_order_id";
+        public static final String COLUMN_DEVICE_MONITORING_ID = "device_monitoring_id";
+        public static final String COLUMN_PEST_ID = "pest_id";
+        public static final String COLUMN_NUMBER = "number";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                TABLE_NAME + " (" +
+                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_SERVICE_ORDER_ID + " TEXT, " +
+                COLUMN_DEVICE_MONITORING_ID + " TEXT, " +
+                COLUMN_PEST_ID + " TEXT, " +
+                COLUMN_NUMBER + " INT " + ")";
     }
 
 

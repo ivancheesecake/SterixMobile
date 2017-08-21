@@ -57,10 +57,10 @@ public class DeviceMonitoringSummaryActivity extends AppCompatActivity {
             tv.setText(currDevice.get("device_condition"));
 
             tv = (TextView) tableRow.findViewById(R.id.cell_Activity);
-            tv.setText(currDevice.get("device_activity"));
+            tv.setText(currDevice.get("activity"));
 
-            tv = (TextView) tableRow.findViewById(R.id.cell_Status);
-            tv.setText("pending");
+//            tv = (TextView) tableRow.findViewById(R.id.cell_Status);
+//            tv.setText("");
 
             if((j+1)%2 == 1)
                 tableRow.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDisabled));

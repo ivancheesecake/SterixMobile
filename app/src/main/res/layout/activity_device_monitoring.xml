@@ -205,6 +205,7 @@
                 android:background="@drawable/curved_borders_lightblue"
                 android:textAllCaps="false"
                 android:text="@string/add_photo_notes"
+                android:onClick="proceedToAddPhoto"
 
                 >
 
@@ -223,6 +224,8 @@
                 android:text="@string/photos_notes"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:onClick="proceedToViewPhoto"
+
 
                 >
 
@@ -273,51 +276,17 @@
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:stretchColumns="*"
+                android:stretchColumns="0,1,2,3,4,5"
                 android:padding="10dp"
                 >
 
-                <TableRow android:layout_width="0dp">
-                    <TextView
-                        android:text="@string/ar"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:layout_weight="1"
-
-                        />
-                    <EditText
-                        android:hint="0"
-                        android:id="@+id/device_ar"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:inputType="number"
-                        android:layout_weight="1"
-
-                        />
-
-                    <TextView
-                        android:text="@string/gr"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:layout_weight="1"
-                        />
-                    <EditText
-                        android:hint="0"
-                        android:id="@+id/device_gr"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:inputType="number"
-                        android:layout_weight="1"
-                        />
-
+                <TableRow>
                     <TextView
                         android:text="@string/ant"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
-                        android:layout_weight="1"
+
                         />
                     <EditText
                         android:hint="0"
@@ -325,38 +294,18 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:inputType="number"
-                        android:layout_weight="1"
-                        />
-
-                </TableRow>
-
-                <TableRow android:layout_width="0dp">
-                    <TextView
-                        android:text="@string/mos"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-
-
-                        />
-                    <EditText
-                        android:hint="0"
-                        android:id="@+id/device_mos"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:inputType="number"
 
                         />
 
                     <TextView
-                        android:text="@string/hf"
+                        android:text="@string/ar"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         />
                     <EditText
                         android:hint="0"
-                        android:id="@+id/device_hf"
+                        android:id="@+id/device_ar"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:inputType="number"
@@ -380,9 +329,9 @@
 
                 </TableRow>
 
-                <TableRow android:layout_width="0dp">
+                <TableRow>
                     <TextView
-                        android:text="@string/df"
+                        android:text="@string/bi"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
@@ -391,57 +340,7 @@
                         />
                     <EditText
                         android:hint="0"
-                        android:id="@+id/device_df"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:inputType="number"
-
-                        />
-
-                    <TextView
-                        android:text="@string/ff"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        />
-                    <EditText
-                        android:hint="0"
-                        android:id="@+id/device_ff"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:inputType="number"
-
-                        />
-
-                    <TextView
-                        android:text="@string/bf"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        />
-                    <EditText
-                        android:hint="0"
-                        android:id="@+id/device_bf2"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:inputType="number"
-
-                        />
-
-                </TableRow>
-
-                <TableRow android:layout_width="0dp">
-                    <TextView
-                        android:text="@string/nr"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-
-
-                        />
-                    <EditText
-                        android:hint="0"
-                        android:id="@+id/device_nr"
+                        android:id="@+id/device_bi"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:inputType="number"
@@ -464,6 +363,191 @@
                         />
 
                     <TextView
+                        android:text="@string/df"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        />
+                    <EditText
+                        android:hint="0"
+                        android:id="@+id/device_df"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:inputType="number"
+
+                        />
+
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:text="@string/ff"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+
+
+                        />
+                    <EditText
+                        android:hint="0"
+                        android:id="@+id/device_ff"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:inputType="number"
+
+                        />
+
+                    <TextView
+                        android:text="@string/fm"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        />
+                    <EditText
+                        android:hint="0"
+                        android:id="@+id/device_fm"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:inputType="number"
+
+                        />
+
+                    <TextView
+                        android:text="@string/gr"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        />
+                    <EditText
+                        android:hint="0"
+                        android:id="@+id/device_gr"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:inputType="number"
+
+                        />
+
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:text="@string/hf"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+
+
+                        />
+                    <EditText
+                        android:hint="0"
+                        android:id="@+id/device_hf"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:inputType="number"
+
+                        />
+
+                    <TextView
+                        android:text="@string/hm"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        />
+                    <EditText
+                        android:hint="0"
+                        android:id="@+id/device_hm"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:inputType="number"
+
+                        />
+
+                    <TextView
+                        android:text="@string/liz"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        />
+                    <EditText
+                        android:hint="0"
+                        android:id="@+id/device_liz"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:inputType="number"
+
+                        />
+
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:text="@string/mos"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+
+
+                        />
+                    <EditText
+                        android:hint="0"
+                        android:id="@+id/device_mos"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:inputType="number"
+
+                        />
+
+                    <TextView
+                        android:text="@string/nr"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        />
+                    <EditText
+                        android:hint="0"
+                        android:id="@+id/device_nr"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:inputType="number"
+
+                        />
+
+                    <TextView
+                        android:text="@string/pf"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+
+                        />
+                    <EditText
+                        android:hint="0"
+                        android:id="@+id/device_pf"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:inputType="number"
+                        />
+
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:text="@string/rfb"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+
+
+                        />
+                    <EditText
+                        android:hint="0"
+                        android:id="@+id/device_rfb"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:inputType="number"
+
+                        />
+
+                    <TextView
                         android:text="@string/rr"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -478,31 +562,12 @@
 
                         />
 
-                </TableRow>
-
-                <TableRow android:layout_width="0dp">
-                    <TextView
-                        android:text="@string/liz"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-
-
-                        />
-                    <EditText
-                        android:hint="0"
-                        android:id="@+id/device_liz"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:inputType="number"
-
-                        />
-
                     <TextView
                         android:text="@string/sp"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
+
                         />
                     <EditText
                         android:hint="0"
@@ -510,22 +575,25 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:inputType="number"
-
                         />
 
+                </TableRow>
+
+                <TableRow>
                     <TextView
-                        android:text="@string/bi"
+                        android:text="@string/oth"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
-
                         />
                     <EditText
                         android:hint="0"
-                        android:id="@+id/device_bi"
+                        android:id="@+id/device_oth"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:inputType="number"
+                        android:layout_span="5"
+
                         />
 
                 </TableRow>
@@ -551,19 +619,17 @@
             >
 
 
-
-
             <Button
 
-                android:id="@+id/device_button_view_summary"
+                android:id="@+id/device_button_rescan"
                 android:background="@drawable/curved_borders_blue"
-                android:text="@string/view_device_summary"
+                android:text="@string/scan"
                 android:textColor="@color/white"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
                 app:layout_widthPercent="49%"
                 app:layout_marginRightPercent="2%"
-                android:onClick="proceedToDeviceSummary"
+                android:onClick="rescanDevice"
                 android:padding="5dp"
 
                 />
@@ -576,13 +642,28 @@
                 app:layout_widthPercent="49%"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
-                android:layout_toRightOf="@id/device_button_view_summary"
+                android:layout_toRightOf="@id/device_button_rescan"
                 android:padding="5dp"
+                android:onClick="saveDeviceMonitoring"
 
                 />
 
         </android.support.percent.PercentRelativeLayout>
 
+        <Button
+
+            android:id="@+id/device_button_view_summary"
+            android:background="@drawable/curved_borders_blue"
+            android:text="@string/view_device_summary"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:onClick="proceedToDeviceSummary"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/device_monitoring_row6"
+            />
     </RelativeLayout>
+
 </ScrollView>
 </RelativeLayout>

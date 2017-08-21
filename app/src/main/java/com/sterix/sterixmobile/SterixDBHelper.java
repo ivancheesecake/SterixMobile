@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SterixDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 14;
     public static final String DATABASE_NAME = "sterix_database";
 
     public SterixDBHelper(Context context) {
@@ -25,12 +25,22 @@ public class SterixDBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SterixContract.DeviceActivity.CREATE_TABLE);
         sqLiteDatabase.execSQL(SterixContract.DeviceCondition.CREATE_TABLE);
         sqLiteDatabase.execSQL(SterixContract.DeviceMonitoring.CREATE_TABLE);
+        sqLiteDatabase.execSQL(SterixContract.DeviceMonitoringPest.CREATE_TABLE);
         sqLiteDatabase.execSQL(SterixContract.AreaFinding.CREATE_TABLE);
+        sqLiteDatabase.execSQL(SterixContract.AreaMonitoringPest.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SterixContract.ServiceOrder.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SterixContract.ServiceOrderTask.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SterixContract.ServiceOrderArea.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SterixContract.DeviceActivity.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SterixContract.DeviceCondition.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SterixContract.DeviceMonitoring.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SterixContract.DeviceMonitoringPest.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SterixContract.AreaFinding.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SterixContract.AreaMonitoringPest.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

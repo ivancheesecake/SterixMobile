@@ -38,6 +38,7 @@
     <string name="pests_found">Pests found</string>
     <string name="ptl">PTL</string>
 
+    <string name="ant">Ant:</string>
     <string name="ar">AR:</string>
     <string name="mos">Mos:</string>
     <string name="df">DF:</string>
@@ -48,10 +49,14 @@
     <string name="bf">BF:</string>
     <string name="cb">CB:</string>
     <string name="sp">Sp:</string>
-    <string name="ant">Ant:</string>
     <string name="ff">FF:</string>
     <string name="rr">RR:</string>
     <string name="bi">Bi:</string>
+    <string name="fm">FM:</string>
+    <string name="hm">HM:</string>
+    <string name="oth">Oth:</string>
+    <string name="pf">PF:</string>
+    <string name="rfb">RFB:</string>
 
     <string name="device_monitoring">Device Monitoring</string>
     <string name="no_device">No Device Detected.</string>

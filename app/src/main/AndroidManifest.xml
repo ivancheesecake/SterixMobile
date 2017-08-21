@@ -22,7 +22,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        >
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,39 +33,50 @@
         </activity>
         <activity
             android:name=".ServiceOrdersActivity"
-            android:label="@string/service_orders" />
+            android:label="@string/service_orders"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".TasksActivity"
-            android:label="@string/title_activity_tasks" />
+            android:label="@string/title_activity_tasks"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AcknowledgementActivity"
-            android:label="@string/title_activity_acknowledgement" />
+            android:label="@string/title_activity_acknowledgement"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MonitoringActivity"
-            android:label="@string/monitoring" />
+            android:label="@string/monitoring"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".TreatmentActivity"
-            android:label="@string/treatment" />
+            android:label="@string/treatment"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AreaMonitoringActivity"
-            android:label="@string/area_monitoring" />
+            android:label="@string/area_monitoring"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DeviceMonitoringActivity"
-            android:label="@string/device_monitoring"></activity>
+            android:label="@string/device_monitoring"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AreaAddFindingActivity"
             android:label="@string/add_findings"
             android:screenOrientation="portrait" />
         <activity
             android:name=".AreaViewFindingActivity"
-            android:label="@string/view_findings" />
+            android:label="@string/view_findings"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ScanActivity"
-            android:label="@string/scan"></activity>
-        <activity android:name=".DeviceMonitoringSummaryActivity"
-
+            android:label="@string/scan"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".DeviceMonitoringSummaryActivity"
             android:label="@string/device_summary"
-            ></activity>
+            android:screenOrientation="portrait"
+            />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -73,8 +85,13 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name=".DeviceMonitoringPhotoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DeviceMonitoringViewPhotoActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

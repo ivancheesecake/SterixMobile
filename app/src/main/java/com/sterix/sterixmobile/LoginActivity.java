@@ -2,7 +2,9 @@ package com.sterix.sterixmobile;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
@@ -30,6 +32,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
@@ -83,13 +87,30 @@ public class LoginActivity extends AppCompatActivity {
         }
 
 
-
-
         // Check if user is logged in
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        boolean loggedIn = sharedPref.getBoolean("LOGGED_IN", false);
+        String username = sharedPref.getString("USERNAME", "");
+
+        // if logged in
+        if(loggedIn){
+
+            Toast t = Toast.makeText(this, "Welcome back, "+username+"!",Toast.LENGTH_SHORT);
+            t.show();
+            Intent serviceOrdersIntent = new Intent(getApplicationContext(), ServiceOrdersActivity.class);
+            startActivity(serviceOrdersIntent);
+            finish();
+        }
+
+
+            // if connected to internets
+                // fetch data
+        // else
+            //show login screen
 
         // Insert values for database
 
-//       insertToDB();
+       //insertToDB();
 
 
     }
@@ -416,6 +437,9 @@ public class LoginActivity extends AppCompatActivity {
         values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION,"");
         values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY_ID,"");
         values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY,"");
+        values.put(SterixContract.DeviceMonitoring.COLUMN_IMAGE,"");
+        values.put(SterixContract.DeviceMonitoring.COLUMN_NOTES,"");
+        values.put(SterixContract.DeviceMonitoring.COLUMN_TIMESTAMP,new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         database.insert(SterixContract.DeviceMonitoring.TABLE_NAME, null, values);
 
         values = new ContentValues();
@@ -427,6 +451,9 @@ public class LoginActivity extends AppCompatActivity {
         values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION,"");
         values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY_ID,"");
         values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY,"");
+        values.put(SterixContract.DeviceMonitoring.COLUMN_IMAGE,"");
+        values.put(SterixContract.DeviceMonitoring.COLUMN_NOTES,"");
+        values.put(SterixContract.DeviceMonitoring.COLUMN_TIMESTAMP,new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         database.insert(SterixContract.DeviceMonitoring.TABLE_NAME, null, values);
 
 
@@ -439,6 +466,9 @@ public class LoginActivity extends AppCompatActivity {
         values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION,"");
         values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY_ID,"");
         values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY,"");
+        values.put(SterixContract.DeviceMonitoring.COLUMN_IMAGE,"");
+        values.put(SterixContract.DeviceMonitoring.COLUMN_NOTES,"");
+        values.put(SterixContract.DeviceMonitoring.COLUMN_TIMESTAMP,new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
         database.insert(SterixContract.DeviceMonitoring.TABLE_NAME, null, values);
 
@@ -450,7 +480,7 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View b){
 
 
-        String username;
+        final String username;
         String password;
         String ip;
 
@@ -472,8 +502,6 @@ public class LoginActivity extends AppCompatActivity {
         Log.d("Username",username);
         Log.d("Password",password);
 
-        // Intent agad para walang login
-
         //Intent serviceOrdersIntent = new Intent(getApplicationContext(), ServiceOrdersActivity.class);
         ///startActivity(serviceOrdersIntent);
         //finish();
@@ -494,6 +522,14 @@ public class LoginActivity extends AppCompatActivity {
                         try {
 
                             if(response.get("success").toString().equals("true")) {
+
+                                SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putBoolean("LOGGED_IN", true);
+                                editor.putString("USERNAME", username);
+                                editor.commit();
+
+
                                 Toast toast = Toast.makeText(getApplicationContext(),"Welcome, "+response.get("username").toString()+"!", Toast.LENGTH_SHORT);
                                 toast.show();
 

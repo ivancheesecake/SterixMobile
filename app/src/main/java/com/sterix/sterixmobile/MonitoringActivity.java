@@ -120,8 +120,8 @@ public class MonitoringActivity extends AppCompatActivity {
             String location_area = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA));
             String status = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderArea.COLUMN_STATUS));
 
-            m = new Monitoring(id,location_area,"Start Area Monitoring",status,so_id,location_area_id);
-            n = new Monitoring(id,location_area,"Start Device Monitoring",status,so_id,location_area_id);
+            m = new Monitoring(id,location_area,"Start Area Monitoring",status,location_area_id,so_id);
+            n = new Monitoring(id,location_area,"Start Device Monitoring",status,location_area_id,so_id);
 
             monitoring_temp = new ArrayList<>();
             monitoring_temp.add(m);
@@ -139,6 +139,7 @@ public class MonitoringActivity extends AppCompatActivity {
 //        monitoring.add(monitoring_temp);
 
         monitoringAdapter.notifyDataSetChanged();
+        database.close();
 
     }
 

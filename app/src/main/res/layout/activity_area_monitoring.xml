@@ -130,145 +130,6 @@
 
             </android.support.percent.PercentRelativeLayout>
 
-
-            <!-- Findings -->
-            <!--
-            <android.support.percent.PercentRelativeLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingRight="5dp"
-                android:layout_below="@+id/area_monitoring_row1"
-                android:id="@+id/area_monitoring_row2"
-                android:layout_marginBottom="5dp"
-
-
-                >
-
-                <TextView
-
-                    android:id="@+id/area_findings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    app:layout_widthPercent="70%"
-                    android:text="@string/area_findings"
-                    android:textSize="16dp"
-                    />
-
-                <Button
-
-                    android:id="@+id/area_findings_add_photo"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:textColor="@color/white"
-                    app:layout_widthPercent="30%"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/curved_borders_blue"
-                    android:textAllCaps="false"
-                    android:text="@string/add_photo"
-
-                    >
-
-                </Button>
-
-
-            </android.support.percent.PercentRelativeLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/area_monitoring_row3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/area_monitoring_row2"
-                android:layout_marginBottom="5dp"
-                >
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/area_findings_notes"
-                    android:hint="@string/notes"
-                    android:layout_marginBottom="8dp"
-                    android:inputType="textPassword"
-
-                    />
-
-            </android.support.design.widget.TextInputLayout>
-            -->
-
-            <!-- Recommendations -->
-            <!--
-            <android.support.percent.PercentRelativeLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingRight="5dp"
-                android:layout_below="@+id/area_monitoring_row3"
-                android:id="@+id/area_monitoring_row4"
-                android:layout_marginBottom="5dp"
-
-                >
-
-                <TextView
-
-                    android:id="@+id/area_actions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    app:layout_widthPercent="70%"
-                    android:text="@string/area_actions"
-                    android:textSize="16dp"
-                    />
-
-                <Button
-
-                    android:id="@+id/area_actions_add_photo"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:textColor="@color/white"
-                    app:layout_widthPercent="30%"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/curved_borders_blue"
-                    android:textAllCaps="false"
-                    android:text="@string/add_photo"
-
-                    >
-
-                </Button>
-
-
-            </android.support.percent.PercentRelativeLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/area_monitoring_row5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/area_monitoring_row4"
-                android:layout_marginBottom="5dp"
-                >
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/area_actions_notes"
-                    android:hint="@string/notes"
-                    android:layout_marginBottom="8dp"
-                    android:inputType="textPassword"
-
-                    />
-
-            </android.support.design.widget.TextInputLayout>
-            -->
             <!-- PTL Pane -->
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/area_monitoring_row3"
@@ -314,7 +175,7 @@
 
                     <TableRow>
                         <TextView
-                            android:text="@string/ar"
+                            android:text="@string/ant"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_gravity="center_vertical|center_horizontal"
@@ -322,7 +183,122 @@
                             />
                         <EditText
                             android:hint="0"
+                            android:id="@+id/area_ant"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:inputType="number"
+
+                            />
+
+                        <TextView
+                            android:text="@string/ar"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            />
+                        <EditText
+                            android:hint="0"
                             android:id="@+id/area_ar"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:inputType="number"
+
+                            />
+
+                        <TextView
+                            android:text="@string/bf"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            />
+                        <EditText
+                            android:hint="0"
+                            android:id="@+id/area_bf"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:inputType="number"
+
+                            />
+
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView
+                            android:text="@string/bi"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+
+
+                            />
+                        <EditText
+                            android:hint="0"
+                            android:id="@+id/area_bi"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:inputType="number"
+
+                            />
+
+                        <TextView
+                            android:text="@string/cb"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            />
+                        <EditText
+                            android:hint="0"
+                            android:id="@+id/area_cb"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:inputType="number"
+
+                            />
+
+                        <TextView
+                            android:text="@string/df"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            />
+                        <EditText
+                            android:hint="0"
+                            android:id="@+id/area_df"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:inputType="number"
+
+                            />
+
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView
+                            android:text="@string/ff"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+
+
+                            />
+                        <EditText
+                            android:hint="0"
+                            android:id="@+id/area_ff"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:inputType="number"
+
+                            />
+
+                        <TextView
+                            android:text="@string/fm"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            />
+                        <EditText
+                            android:hint="0"
+                            android:id="@+id/area_fm"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:inputType="number"
@@ -344,15 +320,50 @@
 
                             />
 
+                    </TableRow>
+
+                    <TableRow>
                         <TextView
-                            android:text="@string/ant"
+                            android:text="@string/hf"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+
+
+                            />
+                        <EditText
+                            android:hint="0"
+                            android:id="@+id/area_hf"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:inputType="number"
+
+                            />
+
+                        <TextView
+                            android:text="@string/hm"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_gravity="center_vertical|center_horizontal"
                             />
                         <EditText
                             android:hint="0"
-                            android:id="@+id/area_ant"
+                            android:id="@+id/area_hm"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:inputType="number"
+
+                            />
+
+                        <TextView
+                            android:text="@string/liz"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            />
+                        <EditText
+                            android:hint="0"
+                            android:id="@+id/area_liz"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:inputType="number"
@@ -380,95 +391,10 @@
                             />
 
                         <TextView
-                            android:text="@string/hf"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:layout_gravity="center_vertical|center_horizontal"
-                            />
-                        <EditText
-                            android:hint="0"
-                            android:id="@+id/area_hf"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:inputType="number"
-
-                            />
-
-                        <TextView
-                            android:text="@string/bf"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:layout_gravity="center_vertical|center_horizontal"
-                            />
-                        <EditText
-                            android:hint="0"
-                            android:id="@+id/area_bf"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:inputType="number"
-
-                            />
-
-                    </TableRow>
-
-                    <TableRow>
-                        <TextView
-                            android:text="@string/df"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:layout_gravity="center_vertical|center_horizontal"
-
-
-                            />
-                        <EditText
-                            android:hint="0"
-                            android:id="@+id/area_df"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:inputType="number"
-
-                            />
-
-                        <TextView
-                            android:text="@string/ff"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:layout_gravity="center_vertical|center_horizontal"
-                            />
-                        <EditText
-                            android:hint="0"
-                            android:id="@+id/area_ff"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:inputType="number"
-
-                            />
-
-                        <TextView
-                            android:text="@string/bf"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:layout_gravity="center_vertical|center_horizontal"
-                            />
-                        <EditText
-                            android:hint="0"
-                            android:id="@+id/area_bf2"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:inputType="number"
-
-                            />
-
-                    </TableRow>
-
-                    <TableRow>
-                        <TextView
                             android:text="@string/nr"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_gravity="center_vertical|center_horizontal"
-
-
                             />
                         <EditText
                             android:hint="0"
@@ -480,14 +406,34 @@
                             />
 
                         <TextView
-                            android:text="@string/cb"
+                            android:text="@string/pf"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_gravity="center_vertical|center_horizontal"
+
                             />
                         <EditText
                             android:hint="0"
-                            android:id="@+id/area_cb"
+                            android:id="@+id/area_pf"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:inputType="number"
+                            />
+
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView
+                            android:text="@string/rfb"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+
+
+                            />
+                        <EditText
+                            android:hint="0"
+                            android:id="@+id/area_rfb"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:inputType="number"
@@ -509,31 +455,12 @@
 
                             />
 
-                    </TableRow>
-
-                    <TableRow>
-                        <TextView
-                            android:text="@string/liz"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:layout_gravity="center_vertical|center_horizontal"
-
-
-                            />
-                        <EditText
-                            android:hint="0"
-                            android:id="@+id/area_liz"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:inputType="number"
-
-                            />
-
                         <TextView
                             android:text="@string/sp"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_gravity="center_vertical|center_horizontal"
+
                             />
                         <EditText
                             android:hint="0"
@@ -541,22 +468,25 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:inputType="number"
-
                             />
 
+                    </TableRow>
+
+                    <TableRow>
                         <TextView
-                            android:text="@string/bi"
+                            android:text="@string/oth"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_gravity="center_vertical|center_horizontal"
-
                             />
                         <EditText
                             android:hint="0"
-                            android:id="@+id/area_bi"
+                            android:id="@+id/area_oth"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:inputType="number"
+                            android:layout_span="5"
+
                             />
 
                     </TableRow>
@@ -642,8 +572,8 @@
                 android:id="@+id/area_button_photos_notes"
                 android:padding="5dp"
                 android:layout_marginTop="5dp"
+                android:onClick="saveAreaMonitoring"
                 />
-
 
         </RelativeLayout>
     </ScrollView>

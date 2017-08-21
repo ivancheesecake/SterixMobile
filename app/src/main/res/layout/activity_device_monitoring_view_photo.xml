@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@color/white"
+            android:backgroundTint="@color/colorPrimary"
+            android:actionMenuTextColor="@color/white"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_below="@id/toolbar">
+
+
+            <android.support.percent.PercentRelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/curved_borders_blue"
+                android:id="@+id/device_monitoring_view_photo_row1"
+                >
+                <TextView
+
+                    android:id="@+id/device_monitoring_view_photo_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textColor="@color/white"
+                    app:layout_widthPercent="60%"
+                    android:textSize="16dp"
+                    >
+
+                </TextView>
+
+                <Button
+
+                    android:id="@+id/area_add_finding_alert"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textColor="@color/white"
+                    app:layout_widthPercent="30%"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/curved_borders_red"
+                    android:textAllCaps="false"
+                    android:text="@string/send_alert"
+
+                    >
+
+                </Button>
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <ImageView
+
+                android:id="@+id/device_monitoring_view_photo_row2"
+                android:layout_below="@id/device_monitoring_view_photo_row1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="5dp"
+                android:scaleType="centerCrop"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/device_monitoring_view_photo_row3"
+                android:layout_below="@id/device_monitoring_view_photo_row2"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/curved_borders_blue"
+                android:text="@string/device_monitoring_back"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                app:layout_widthPercent="49%"
+                app:layout_marginRightPercent="2%"
+                android:padding="5dp"
+                android:onClick="backToDeviceMonitoring"
+                android:id="@+id/device_monitoring_view_photo_row4"
+                android:layout_below="@id/device_monitoring_view_photo_row3"
+                />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</ScrollView>
