@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Insert values for database
 
-       //insertToDB2();
+//       insertToDB();
 
 
     }

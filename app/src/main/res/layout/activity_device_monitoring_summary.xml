@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        android:actionMenuTextColor="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        />
+
+    <ScrollView
+        android:layout_below="@id/toolbar"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activity_service_orders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/activity_device_monitoring"
+        tools:context="com.sterix.sterixmobile.DeviceMonitoringActivity"
+
+        >
+
+        <RelativeLayout
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <!--ROW 1 | Location + Alert -->
+            <android.support.percent.PercentRelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingRight="5dp"
+                android:background="@drawable/curved_borders_blue"
+                android:id="@+id/device_summary_row1"
+                >
+                <TextView
+
+                    android:id="@+id/device_summary_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textColor="@color/white"
+                    app:layout_widthPercent="60%"
+                    android:textSize="16dp"
+                    >
+
+                </TextView>
+
+                <Button
+
+                    android:id="@+id/device_summary_alert"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textColor="@color/white"
+                    app:layout_widthPercent="30%"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/curved_borders_red"
+                    android:textAllCaps="false"
+                    android:text="@string/send_alert"
+
+                    >
+
+                </Button>
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/device_summary_row1"
+                android:id="@+id/device_summary_row2"
+                android:stretchColumns="*"
+                android:layout_marginTop="10dp"
+                >
+
+                <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_height="?android:attr/listPreferredItemHeight"
+                    android:focusable="true"
+                    android:layout_width="0dp"
+                    android:padding="5dp"
+                    >
+                    <TextView
+                        android:id="@+id/cell_deviceID"
+                        android:layout_width="wrap_content"
+                        android:layout_column="0"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:text="Device ID"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/cell_Condition"
+                        android:layout_width="wrap_content"
+                        android:layout_column="1"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:text="Condition"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/cell_Activity"
+                        android:layout_width="wrap_content"
+                        android:layout_column="2"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:text="Activity"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/cell_Status"
+                        android:layout_width="wrap_content"
+                        android:layout_column="3"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:text="Status"
+                        android:textStyle="bold"/>
+                </TableRow>
+
+            </TableLayout>
+
+            </RelativeLayout>
+
+    </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/curved_borders_blue"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/device_monitoring_back"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:onClick="backToDeviceMonitoring"
+        />
+
+</RelativeLayout>

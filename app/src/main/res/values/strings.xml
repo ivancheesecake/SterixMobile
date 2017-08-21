@@ -64,5 +64,8 @@
     <string name="condition">Device Condition</string>
     <string name="action">Action</string>
 
+    <string name="device_summary">Device Summary</string>
+    <string name="device_monitoring_back">Back to Device Monitoring</string>
+
 
 </resources>

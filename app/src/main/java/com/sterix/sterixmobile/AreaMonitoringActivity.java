@@ -9,22 +9,35 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 public class AreaMonitoringActivity extends AppCompatActivity {
 
+    Monitoring m;
+    String service_order_location;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_area_monitoring);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         Intent i = getIntent();
-        Monitoring m =  i.getParcelableExtra("AREA_MONITORING_PARCEL");
+        m =  i.getParcelableExtra("AREA_MONITORING_PARCEL");
+        service_order_location = i.getStringExtra("SERVICE_ORDER_LOCATION");
         TextView tv_location = (TextView) findViewById(R.id.area_monitoring_location);
         tv_location.setText(m.getLocation());
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setSubtitle(service_order_location);
+
+
+
+
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
 
     }
 
@@ -59,6 +72,8 @@ public class AreaMonitoringActivity extends AppCompatActivity {
 
         Log.d("D","Add Findings");
         Intent intent = new Intent(this, AreaAddFindingActivity.class);
+        intent.putExtra("AREA_MONITORING_PARCEL",m);
+        intent.putExtra("SERVICE_ORDER_LOCATION",service_order_location);
         startActivity(intent);
 
     }
@@ -67,6 +82,8 @@ public class AreaMonitoringActivity extends AppCompatActivity {
 
         Log.d("D","View Findings");
         Intent intent = new Intent(this, AreaViewFindingActivity.class);
+        intent.putExtra("AREA_MONITORING_PARCEL",m);
+        intent.putExtra("SERVICE_ORDER_LOCATION",service_order_location);
         startActivity(intent);
 
     }

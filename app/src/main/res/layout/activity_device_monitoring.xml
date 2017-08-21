@@ -130,42 +130,56 @@
             android:layout_marginBottom="5dp"
             >
 
+            <!--&lt;!&ndash; Combobox ito &ndash;&gt;-->
+            <!--<Button-->
 
+                <!--android:id="@+id/device_condition"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="16dp"-->
+                <!--android:textColor="@color/white"-->
+                <!--app:layout_widthPercent="49%"-->
 
+                <!--android:background="@drawable/curved_borders_lightblue"-->
+                <!--android:textAllCaps="false"-->
+                <!--android:text="@string/condition"-->
 
-            <!-- Combobox ito -->
-            <Button
+                <!--&gt;-->
 
+            <!--</Button>-->
+
+            <!--<Button-->
+
+                <!--android:id="@+id/device_action"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="16dp"-->
+                <!--android:textColor="@color/white"-->
+                <!--app:layout_widthPercent="49%"-->
+                <!--android:background="@drawable/curved_borders_lightblue"-->
+                <!--android:textAllCaps="false"-->
+                <!--android:text="@string/action"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignParentRight="true"-->
+
+                <!--&gt;-->
+
+            <!--</Button>-->
+
+            <Spinner
                 android:id="@+id/device_condition"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:textColor="@color/white"
-                app:layout_widthPercent="49%"
-
-                android:background="@drawable/curved_borders_lightblue"
-                android:textAllCaps="false"
-                android:text="@string/condition"
-
+                android:padding="5dp"
+                app:layout_widthPercent="50%"
                 >
+            </Spinner>
 
-            </Button>
-
-            <Button
-
-                android:id="@+id/device_action"
+            <Spinner
+                android:id="@+id/device_activity"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:textColor="@color/white"
-                app:layout_widthPercent="49%"
-                android:background="@drawable/curved_borders_lightblue"
-                android:textAllCaps="false"
-                android:text="@string/action"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-
+                android:padding="5dp"
+                app:layout_widthPercent="50%"
+                android:layout_toRightOf="@id/device_condition"
                 >
-
-            </Button>
+            </Spinner>
 
         </android.support.percent.PercentRelativeLayout>
 
@@ -549,7 +563,7 @@
                 android:textAllCaps="false"
                 app:layout_widthPercent="49%"
                 app:layout_marginRightPercent="2%"
-
+                android:onClick="proceedToDeviceSummary"
                 android:padding="5dp"
 
                 />

@@ -20,16 +20,16 @@ public class Monitoring implements Parcelable {
     public Monitoring(){
     }
 
-    public Monitoring(String id, String location,String monitoringTasks,String status){
+//    public Monitoring(String id, String location,String monitoringTasks,String status){
+//
+//        this.id = id;
+//        this.location = location;
+//        this.monitoringTask = monitoringTasks;
+//        this.status = status;
+//
+//    }
 
-        this.id = id;
-        this.location = location;
-        this.monitoringTask = monitoringTasks;
-        this.status = status;
-
-    }
-
-    public Monitoring(String id, String location,String monitoringTasks,String status,String service_order_id, String location_area_id){
+    public Monitoring(String id, String location,String monitoringTasks,String status, String location_area_id,String service_order_id){
 
         this.id = id;
         this.location = location;
@@ -93,6 +93,8 @@ public class Monitoring implements Parcelable {
         location = in.readString();
         monitoringTask = in.readString();
         status = in.readString();
+        location_area_id = in.readString();
+        service_order_id = in.readString();
     }
 
     @Override
@@ -106,6 +108,8 @@ public class Monitoring implements Parcelable {
         dest.writeString(location);
         dest.writeString(monitoringTask);
         dest.writeString(status);
+        dest.writeString(location_area_id);
+        dest.writeString(service_order_id);
     }
 
     @SuppressWarnings("unused")

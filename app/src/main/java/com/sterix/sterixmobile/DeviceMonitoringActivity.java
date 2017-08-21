@@ -16,8 +16,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +42,12 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
     TextView barcodeInfo;
     String service_order_location,service_order_id,location_area_id;
     ArrayList<HashMap<String,String>> devices;
+    HashMap<String,String> activities;
+    HashMap<String,String> conditions;
+    ArrayList<String> conditionsList;
+    ArrayList<String> activitiesList;
+    Spinner conditionsSpinner,activitySpinner;
+    Monitoring m;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +55,7 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         setContentView(R.layout.activity_device_monitoring);
 
         Intent i = getIntent();
-        Monitoring m =  i.getParcelableExtra("DEVICE_MONITORING_PARCEL");
+        m =  i.getParcelableExtra("DEVICE_MONITORING_PARCEL");
         service_order_location = i.getStringExtra("SERVICE_ORDER_LOCATION");
         service_order_id = i.getStringExtra("SERVICE_ORDER_ID");
         location_area_id = i.getStringExtra("LOCATION_AREA_ID");
@@ -61,10 +69,38 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         TextView tv_location = (TextView) findViewById(R.id.device_monitoring_location);
         tv_location.setText(m.getLocation());
 
-        // Fetch all devices
+        // Fetch conditions (na dapat manggagaling sa previous activity)
 
-        //Log.d("HEY",service_order_id);
-        //Log.d("HEY",location_area_id);
+        conditions = fetchConditions();
+        conditionsList = new ArrayList<>();
+        conditionsList.add("Condition");
+
+        for (String key:conditions.keySet()){
+            conditionsList.add(key);
+        }
+
+        // Fetch activities (na dapat manggaling din sa previous activity
+
+        activities = fetchActivities();
+        activitiesList = new ArrayList<>();
+        activitiesList.add("Activity");
+
+        for (String key:activities.keySet()){
+            activitiesList.add(key);
+        }
+
+        // Setup spinners
+        
+        conditionsSpinner = (Spinner) findViewById(R.id.device_condition);
+        activitySpinner = (Spinner) findViewById(R.id.device_activity);
+
+        ArrayAdapter<String> conditionsAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,conditionsList);
+        conditionsSpinner.setAdapter(conditionsAdapter);
+
+        ArrayAdapter<String> activityAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,activitiesList);
+        activitySpinner.setAdapter(activityAdapter);
+
+        // Fetch all devices
 
         devices = fetchDevices(service_order_id,location_area_id);
 
@@ -74,19 +110,20 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
 
         }
 
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         // Disable everything at the beginning
 
-        condition = (Button) findViewById(R.id.device_condition);
-        condition.setClickable(false);
+        //conditionsSpinner = (Spinner) findViewById(R.id.device_condition);
+        conditionsSpinner.setEnabled(false);
+        conditionsSpinner.setClickable(false);
 
         addPhotosNotes = (Button) findViewById(R.id.device_add_photo);
         addPhotosNotes.setClickable(false);
 
-        action = (Button) findViewById(R.id.device_action);
-        action.setClickable(false);
+        //activitySpinner = (Spinner) findViewById(R.id.device_activity);
+        activitySpinner.setEnabled(false);
+        activitySpinner.setClickable(false);
 
         ptl = (Button) findViewById(R.id.device_ptl);
         ptl.setClickable(false);
@@ -169,8 +206,8 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
 
         cameraSource = new CameraSource
                 .Builder(this, barcodeDetector)
-                .setRequestedPreviewSize(640, 480)
-                .build();
+                .setRequestedPreviewSize(640, 480).setAutoFocusEnabled(true).build();
+
 
         cameraView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
@@ -208,6 +245,32 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
                     barcodeInfo.post(new Runnable() {    // Use the post method of the TextView
                         public void run() {
 
+
+
+
+                            //Log.d("CODE", Boolean.toString(barcodes.valueAt(0).displayValue.toString().equals("a")) );
+
+//                            if(barcodes.valueAt(0).displayValue.toString().equals("a")) {
+//
+//                                barcodeInfo.setText(    // Update the TextView
+//                                        barcodes.valueAt(0).displayValue
+//                                );
+//
+//
+//                                cameraSource.stop();
+//                                barcodeDetector.release();
+//                                cameraView.setVisibility(View.GONE);
+//
+//
+//                                Toast toast = Toast.makeText(getApplicationContext(), "Device " + barcodes.valueAt(0).displayValue + " was detected!", Toast.LENGTH_SHORT);
+//                                toast.show();
+//                                enableForms();
+//                            }
+//                            else{
+//
+//                                Log.d("WHY","WHY?");
+//                            }
+
                             for(int a = 0; a< devices.size(); a++){
 
                                 Log.d("A", devices.get(a).get("device_code"));
@@ -215,7 +278,7 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
 //                                Log.d("C", barcodes.valueAt(0).displayValue.equals(devices.get(a).get("device_code")));
 
 
-                                if(devices.get(a).get("device_code").equals(barcodes.valueAt(0).displayValue)){
+                                if(devices.get(a).get("device_code").equals(barcodes.valueAt(0).displayValue.toString())){
 
                                     Log.d("HERE", barcodes.valueAt(0).displayValue);
 
@@ -280,13 +343,14 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
     public void enableForms(){
         Log.d("HEY","HEYY");
 
-        condition.setClickable(true);
-        condition.setBackgroundResource(R.drawable.curved_borders_blue);
+        conditionsSpinner.setEnabled(true);
+        conditionsSpinner.setClickable(true);
         addPhotosNotes.setClickable(true);
         addPhotosNotes.setBackgroundResource(R.drawable.curved_borders_blue);
 
-        action.setClickable(true);
-        action.setBackgroundResource(R.drawable.curved_borders_blue);
+        activitySpinner.setEnabled(true);
+        activitySpinner.setClickable(true);
+
         ptl.setClickable(true);
         ptl.setBackgroundResource(R.drawable.curved_borders_blue);
 
@@ -374,6 +438,91 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         }
 
         return out;
+    }
+
+    public HashMap<String,String> fetchConditions(){
+
+        HashMap out = new HashMap<String,String>();
+
+        SQLiteDatabase database = new SterixDBHelper(this).getWritableDatabase();
+
+        String[] projection = {
+                SterixContract.DeviceCondition.COLUMN_CONDITION_ID,
+                SterixContract.DeviceCondition.COLUMN_CONDITION_NAME
+        };
+
+        String sortOrder = SterixContract.DeviceCondition.COLUMN_CONDITION_ID +" ASC";
+
+        Cursor cursor = database.query(
+                SterixContract.DeviceCondition.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+
+        while (cursor.moveToNext()) {
+
+            String id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceCondition.COLUMN_CONDITION_ID));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceCondition.COLUMN_CONDITION_NAME));
+
+            out.put(name,id);
+
+        }
+
+        return out;
+
+    }
+
+    public HashMap<String,String> fetchActivities(){
+
+        HashMap out = new HashMap<String,String>();
+
+        SQLiteDatabase database = new SterixDBHelper(this).getWritableDatabase();
+
+        String[] projection = {
+                SterixContract.DeviceActivity.COLUMN_DEVICE_ACTIVITY_ID,
+                SterixContract.DeviceActivity.COLUMN_DEVICE_ACTIVITY_NAME
+        };
+
+        String sortOrder = SterixContract.DeviceActivity.COLUMN_DEVICE_ACTIVITY_ID +" ASC";
+
+        Cursor cursor = database.query(
+                SterixContract.DeviceActivity.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+
+        while (cursor.moveToNext()) {
+
+            String id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceActivity.COLUMN_DEVICE_ACTIVITY_ID));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceActivity.COLUMN_DEVICE_ACTIVITY_NAME));
+
+            out.put(name,id);
+
+        }
+
+        return out;
+
+    }
+
+
+    public void proceedToDeviceSummary(View v){
+
+        Intent deviceSummaryIntent = new Intent(getApplicationContext(), DeviceMonitoringSummaryActivity.class);
+        deviceSummaryIntent.putExtra("DEVICES", devices);
+        deviceSummaryIntent.putExtra("LOCATION_AREA", m.getLocation());
+//        areaMonitoringIntent.putExtra("SERVICE_ORDER_ID", m.getService_order_id());
+        deviceSummaryIntent.putExtra("SERVICE_ORDER_LOCATION", service_order_location);
+        startActivity(deviceSummaryIntent);
+
+
     }
 
 }

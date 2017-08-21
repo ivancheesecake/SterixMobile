@@ -122,4 +122,31 @@ public final class SterixContract {
 
     }
 
+    public static class AreaFinding implements BaseColumns{
+
+        public static final String TABLE_NAME = "area_findings";
+
+        public static final String COLUMN_SERVICE_ORDER_ID = "service_order_id";
+        public static final String COLUMN_CLIENT_LOCATION_AREA_ID = "client_location_area_id";
+        public static final String COLUMN_IMAGE = "image";
+        public static final String COLUMN_FINDINGS = "findings";
+        public static final String COLUMN_RECOMMENDATIONS = "recommendations";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
+        // Maglagay din ng timestamp
+
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                TABLE_NAME + " (" +
+                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_SERVICE_ORDER_ID + " TEXT, " +
+                COLUMN_CLIENT_LOCATION_AREA_ID + " TEXT, " +
+                COLUMN_IMAGE + " TEXT, " +
+                COLUMN_FINDINGS + " TEXT, " +
+                COLUMN_RECOMMENDATIONS + " TEXT, " +
+                COLUMN_TIMESTAMP + " TEXT " + ")";
+
+    }
+
+
+
 }

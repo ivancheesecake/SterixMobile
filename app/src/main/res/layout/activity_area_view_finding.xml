@@ -18,4 +18,59 @@
         android:actionMenuTextColor="@color/white"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
 
+    <android.support.percent.PercentRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/curved_borders_blue"
+        android:id="@+id/area_view_finding_row1"
+        android:layout_below="@id/toolbar"
+        >
+        <TextView
+
+            android:id="@+id/area_view_finding_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            app:layout_widthPercent="60%"
+            android:textSize="16dp"
+            >
+
+        </TextView>
+
+        <Button
+
+            android:id="@+id/area_add_finding_alert"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            app:layout_widthPercent="30%"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/curved_borders_red"
+            android:textAllCaps="false"
+            android:text="@string/send_alert"
+
+            >
+
+        </Button>
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/view_finding_recyvlerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:layout_below="@id/area_view_finding_row1"/>
+
+
 </RelativeLayout>

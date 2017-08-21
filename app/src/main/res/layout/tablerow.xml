@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:focusable="true"
+    android:layout_width="0dp"
+    android:padding="5dp"
+    >
+    <TextView
+        android:id="@+id/cell_deviceID"
+        android:layout_width="wrap_content"
+        android:layout_column="0"
+        android:layout_weight="1"
+        android:textColor="@color/black"  />
+
+    <TextView
+        android:id="@+id/cell_Condition"
+        android:layout_width="wrap_content"
+        android:layout_column="1"
+        android:layout_weight="1"
+        android:textColor="@color/black"  />
+
+    <TextView
+        android:id="@+id/cell_Activity"
+        android:layout_width="wrap_content"
+        android:layout_column="2"
+        android:layout_weight="1"
+        android:textColor="@color/black"  />
+
+    <TextView
+        android:id="@+id/cell_Status"
+        android:layout_width="wrap_content"
+        android:layout_column="3"
+        android:layout_weight="1"
+        android:textColor="@color/black"  />
+</TableRow>

@@ -29,6 +29,7 @@ public class MonitoringActivity extends AppCompatActivity {
     public String service_order_id,service_order_location;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
