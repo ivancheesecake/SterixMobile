@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     HashMap<String,String> params;
     private final int MY_PERMISSIONS_CAMERA = 1;
     private final int MY_PERMISSIONS_STORAGE = 2;
+    private final int MY_PERMISSIONS_INTERNET = 3;
     public String ip;
 
     @Override
@@ -51,6 +53,23 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // ASK PERMISSIONS
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.INTERNET)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.INTERNET)) {
+
+            } else {
+
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.INTERNET},
+                        MY_PERMISSIONS_INTERNET);
+            }
+        }
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
@@ -86,6 +105,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
+        // Insert dummy values
+        insertToDB();
+
+
 
         // Check if user is logged in
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -110,7 +133,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // Insert values for database
 
-       //insertToDB();
 
 
     }
@@ -234,6 +256,13 @@ public class LoginActivity extends AppCompatActivity {
 
         SQLiteDatabase database = new SterixDBHelper(this).getWritableDatabase();
         ContentValues values = new ContentValues();
+
+        String count = "SELECT count(*) FROM "+SterixContract.ServiceOrder.TABLE_NAME;
+        Cursor mcursor = database.rawQuery(count, null);
+        mcursor.moveToFirst();
+        int icount = mcursor.getInt(0);
+        if(icount>0)
+            return;
 
         // Initialize Service Orders
 
@@ -432,7 +461,7 @@ public class LoginActivity extends AppCompatActivity {
         values = new ContentValues();
         values.put(SterixContract.DeviceMonitoring.COLUMN_SERVICE_ORDER_ID,"1");
         values.put(SterixContract.DeviceMonitoring.COLUMN_CLIENT_LOCATION_AREA_ID,"1");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CODE,"MA12");
+        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CODE,"CTB001");
         values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION_ID,"6");
         values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION,"");
         values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY_ID,"");
@@ -446,7 +475,7 @@ public class LoginActivity extends AppCompatActivity {
 
         values.put(SterixContract.DeviceMonitoring.COLUMN_SERVICE_ORDER_ID,"1");
         values.put(SterixContract.DeviceMonitoring.COLUMN_CLIENT_LOCATION_AREA_ID,"1");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CODE,"CY22");
+        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CODE,"CTB002");
         values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION_ID,"");
         values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION,"");
         values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY_ID,"");
@@ -461,7 +490,7 @@ public class LoginActivity extends AppCompatActivity {
 
         values.put(SterixContract.DeviceMonitoring.COLUMN_SERVICE_ORDER_ID,"1");
         values.put(SterixContract.DeviceMonitoring.COLUMN_CLIENT_LOCATION_AREA_ID,"2");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CODE,"MA94");
+        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CODE,"CTB003");
         values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION_ID,"");
         values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION,"");
         values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY_ID,"");
@@ -501,11 +530,6 @@ public class LoginActivity extends AppCompatActivity {
 
         Log.d("Username",username);
         Log.d("Password",password);
-
-        //Intent serviceOrdersIntent = new Intent(getApplicationContext(), ServiceOrdersActivity.class);
-        ///startActivity(serviceOrdersIntent);
-        //finish();
-
 
         // Request a string response from the provided URL.
         RequestQueue queue = Volley.newRequestQueue(this);
