@@ -30,6 +30,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -106,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Insert dummy values
-        insertToDB();
+        //insertToDB();
 
 
 
@@ -114,15 +115,21 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         boolean loggedIn = sharedPref.getBoolean("LOGGED_IN", false);
         String username = sharedPref.getString("USERNAME", "");
+        String userId = sharedPref.getString("USER_ID", "");
+        ip = sharedPref.getString("IP", "");
 
+        Log.d("USER_ID",userId);
         // if logged in
         if(loggedIn){
+
+            syncData(userId);
 
             Toast t = Toast.makeText(this, "Welcome back, "+username+"!",Toast.LENGTH_SHORT);
             t.show();
             Intent serviceOrdersIntent = new Intent(getApplicationContext(), ServiceOrdersActivity.class);
             startActivity(serviceOrdersIntent);
             finish();
+
         }
 
 
@@ -511,7 +518,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final String username;
         String password;
-        String ip;
+
 
         // Fetch login credentials
 
@@ -527,9 +534,6 @@ public class LoginActivity extends AppCompatActivity {
         params = new HashMap<String,String>();
         params.put("username",username);
         params.put("password",password);
-
-        Log.d("Username",username);
-        Log.d("Password",password);
 
         // Request a string response from the provided URL.
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -551,8 +555,11 @@ public class LoginActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPref.edit();
                                 editor.putBoolean("LOGGED_IN", true);
                                 editor.putString("USERNAME", username);
+                                editor.putString("USER_ID", response.get("user_id").toString());
+                                editor.putString("IP", ip);
                                 editor.commit();
 
+                                syncData(response.get("user_id").toString());
 
                                 Toast toast = Toast.makeText(getApplicationContext(),"Welcome, "+response.get("username").toString()+"!", Toast.LENGTH_SHORT);
                                 toast.show();
@@ -562,9 +569,9 @@ public class LoginActivity extends AppCompatActivity {
                                 finish();
                             }
                             else{
-
-                                Toast toast = Toast.makeText(getApplicationContext(),"Invalid login credentials.", Toast.LENGTH_SHORT);
-                                toast.show();
+                                Log.d("OK?","OK.");
+                                //Toast toast = Toast.makeText(getApplicationContext(),"Invalid login credentials.", Toast.LENGTH_SHORT);
+                                //toast.show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -579,11 +586,71 @@ public class LoginActivity extends AppCompatActivity {
 
         queue.add(request_json);
 
-        // Perform authentication on server
+    }
 
-        // If successful login, intent to next activity and destroy login activity
+    public void syncData(String user_id){
 
-        // Is login retained? Forever?
+        HashMap<String,String> params = new HashMap<>();
+        params.put("user_id",user_id);
+
+        Toast t = Toast.makeText(getApplicationContext(),"Here",Toast.LENGTH_LONG);
+        t.show();
+//        Log.d("USER_ID_2",user_id);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="http://"+ip+"/SterixBackend/sync.php";
+
+        JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+
+
+                            Log.d("Response",response.get("service_order").toString());
+                            insertServiceOrders(new JSONArray(response.get("service_order").toString()));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        });
+
+        queue.add(request_json);
+
+    }
+
+    public void insertServiceOrders(JSONArray serviceOrders){
+
+        SQLiteDatabase database = new SterixDBHelper(this).getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        // Initialize Service Orders
+
+        for(int i=0;i<serviceOrders.length();i++) {
+            try{
+                JSONObject obj = new JSONObject(serviceOrders.get(i).toString());
+
+//            values.put(SterixContract.ServiceOrder._ID,obj.get);
+//            values.put(SterixContract.ServiceOrder.COLUMN_SERVICE_TYPE,"Monitoring");
+//            values.put(SterixContract.ServiceOrder.COLUMN_LOCATION,"Nesle Canlubang");
+//            values.put(SterixContract.ServiceOrder.COLUMN_START_DATE,"2017-07-26");
+//            values.put(SterixContract.ServiceOrder.COLUMN_START_TIME,"00:00:00");
+//            values.put(SterixContract.ServiceOrder.COLUMN_END_DATE,"2017-07-26");
+//            values.put(SterixContract.ServiceOrder.COLUMN_END_TIME,"00:00:00");
+//            values.put(SterixContract.ServiceOrder.COLUMN_STATUS,"Accepted/In Progress");
+
+           }catch(Exception e){};
+
+
+//        database.insert(SterixContract.ServiceOrder.TABLE_NAME, null, values);
+//        database.close();
+        }
 
     }
 

@@ -23,7 +23,7 @@ public final class SterixContract {
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + " (" +
-                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                _ID + " INTEGER PRIMARY KEY, " +
                 COLUMN_SERVICE_TYPE + " TEXT, " +
                 COLUMN_LOCATION + " TEXT, " +
                 COLUMN_START_DATE + " TEXT, " +
@@ -44,7 +44,7 @@ public final class SterixContract {
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + " (" +
-                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                _ID + " INTEGER PRIMARY KEY, " +
                 COLUMN_SERVICE_ORDER_ID + " TEXT, " +
                 COLUMN_TASK + " TEXT, " +
                 COLUMN_START_TIME + " TEXT, " +
@@ -62,7 +62,7 @@ public final class SterixContract {
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + " (" +
-                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                _ID + " INTEGER PRIMARY KEY, " +
                 COLUMN_SERVICE_ORDER_ID + " TEXT, " +
                 COLUMN_CLIENT_LOCATION_AREA_ID + " TEXT, " +
                 COLUMN_CLIENT_LOCATION_AREA + " TEXT, " +
