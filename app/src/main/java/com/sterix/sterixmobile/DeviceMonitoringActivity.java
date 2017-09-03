@@ -918,7 +918,7 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
 
     }
 
-    public void insertDeviceMonitoringToQueue(String service_order_id, final String device_code, String client_location_area_ID, String timestamp, String device_condition_ID, String activity_ID){
+    public void insertDeviceMonitoringToQueue(String service_order_id, final String device_code, String client_location_area_ID, String timestamp, String device_condition_ID, String activity_ID, String photoPath, String photoNotes){
 
         SQLiteDatabase db = new SterixDBHelper(this).getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -929,6 +929,8 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         values.put(SterixContract.DeviceMonitoringQueue.COLUMN_TIMESTAMP,timestamp);
         values.put(SterixContract.DeviceMonitoringQueue.COLUMN_DEVICE_CONDITION_ID,device_condition_ID);
         values.put(SterixContract.DeviceMonitoringQueue.COLUMN_ACTIVITY_ID,activity_ID);
+        values.put(SterixContract.DeviceMonitoringQueue.COLUMN_IMAGE,photoPath);
+        values.put(SterixContract.DeviceMonitoringQueue.COLUMN_NOTES,photoNotes);
         values.put(SterixContract.DeviceMonitoringQueue.COLUMN_QUEUE_NUMBER,Integer.toString(device_queue_number));
         db.insert(SterixContract.DeviceMonitoringQueue.TABLE_NAME, null, values);
 

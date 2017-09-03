@@ -536,6 +536,8 @@ public class ServiceOrdersActivity extends AppCompatActivity {
                 SterixContract.DeviceMonitoringQueue.COLUMN_DEVICE_CONDITION_ID,
                 SterixContract.DeviceMonitoringQueue.COLUMN_ACTIVITY_ID,
                 SterixContract.DeviceMonitoringQueue.COLUMN_TIMESTAMP,
+                SterixContract.DeviceMonitoringQueue.COLUMN_IMAGE,
+                SterixContract.DeviceMonitoringQueue.COLUMN_NOTES,
                 SterixContract.DeviceMonitoringQueue.COLUMN_QUEUE_NUMBER
         };
 
@@ -551,7 +553,7 @@ public class ServiceOrdersActivity extends AppCompatActivity {
                 sortOrder                                // The sort order
         );
 
-        String service_order_id,client_location_area_id,device_code,device_condition_id,activity_id,timestamp,queue_number;
+        String service_order_id,client_location_area_id,device_code,device_condition_id,activity_id,timestamp,queue_number,image,notes;
 
         while(cursor.moveToNext()){
 
@@ -563,6 +565,8 @@ public class ServiceOrdersActivity extends AppCompatActivity {
             activity_id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoringQueue.COLUMN_ACTIVITY_ID));
             timestamp = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoringQueue.COLUMN_TIMESTAMP));
             queue_number = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoringQueue.COLUMN_QUEUE_NUMBER));
+            image =  cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoringQueue.COLUMN_IMAGE));
+            notes =  cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoringQueue.COLUMN_NOTES));
 
             JSONObject temp = new JSONObject();
 
@@ -573,6 +577,8 @@ public class ServiceOrdersActivity extends AppCompatActivity {
                 temp.put("device_condition_id", device_condition_id);
                 temp.put("activity_id", activity_id);
                 temp.put("timestamp", timestamp);
+                temp.put("image", image);
+                temp.put("notes", notes);
                 // There will be redundant queries in the server
                 // processDeviceMonitoringPestQueue(queue_number)
                 temp.put("pests", processDeviceMonitoringPestQueue(queue_number,database).toString());
@@ -823,7 +829,9 @@ public class ServiceOrdersActivity extends AppCompatActivity {
         }
 
         Log.d("IMG",imgPath);
+        database.close();
 
+        encodeImagetoString(imgPath);
     }
 
     String encodedString;
@@ -848,7 +856,7 @@ public class ServiceOrdersActivity extends AppCompatActivity {
                         options);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 // Must compress the Image to reduce image size to make upload easy
-                bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 30, stream);
                 byte[] byte_arr = stream.toByteArray();
                 // Encode Image to String
                 encodedString = Base64.encodeToString(byte_arr, 0);
@@ -861,10 +869,42 @@ public class ServiceOrdersActivity extends AppCompatActivity {
                 // Put converted Image string into Async Http Post param
 //                params.put("image", encodedString);
                 // Trigger Image upload
-//                triggerImageUpload();
+                triggerUpload(encodedString,imgPath);
                 Log.d("IMG","Encoding Finished!");
             }
         }.execute(null, null, null);
+    }
+
+    public void triggerUpload(String encoded,String imgPath){
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("encoded",encoded);
+        params.put("filename","try50.jpg");
+
+        Log.d("IMG",imgPath.split("/")[9]);
+
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//        String url ="http://"+ip+"/SterixBackend/imageUpload.php";
+//
+//        JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+////                        new ProcessResponseTask().execute(response);
+//                        Log.d("IMG","Success");
+//
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d("Error: ", "WHY LISA, WHY?");
+//                VolleyLog.e("Error: ", error.getMessage());
+//            }
+//        });
+//
+//        Log.d("IMG","Uploading");
+//        queue.add(request_json);
+
     }
 
 
