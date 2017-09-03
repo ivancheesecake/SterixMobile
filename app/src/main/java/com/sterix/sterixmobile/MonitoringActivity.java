@@ -112,8 +112,9 @@ public class MonitoringActivity extends AppCompatActivity {
         );
 
 
+        Log.d("HMMM","HMMM");
         while (cursor.moveToNext()) {
-
+            Log.d("HMMM","HMMM");
             String id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderArea._ID));
             String so_id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderArea.COLUMN_SERVICE_ORDER_ID));
             String location_area_id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA_ID));

@@ -106,10 +106,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-        // Insert dummy values
-        //insertToDB();
-
-
+        initializeActivitiesAndConditions();
 
         // Check if user is logged in
         SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
@@ -118,13 +115,13 @@ public class LoginActivity extends AppCompatActivity {
         String userId = sharedPref.getString("USER_ID", "");
         ip = sharedPref.getString("IP", "");
 
-//        Log.d("USER_ID",userId);
+        Log.d("LOGGED_IN",Boolean.toString(loggedIn));
 //        Log.d("IP",ip);
         // if logged in
         if(loggedIn){
 
 //            syncData(userId);
-
+            Log.d("HERE","HERE");
             Toast t = Toast.makeText(this, "Welcome back, "+username+"!",Toast.LENGTH_SHORT);
             t.show();
             Intent serviceOrdersIntent = new Intent(getApplicationContext(), ServiceOrdersActivity.class);
@@ -165,236 +162,21 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void insertToDB2(){
+    public void initializeActivitiesAndConditions(){
+
+        // Make this online next time, bitch!
 
         SQLiteDatabase database = new SterixDBHelper(this).getWritableDatabase();
-        ContentValues values = new ContentValues();
+        ContentValues values;
 
-        // Initialize Service Orders
+        // Initialize Device Conditions
 
-        values.put(SterixContract.ServiceOrder._ID,"3");
-        values.put(SterixContract.ServiceOrder.COLUMN_SERVICE_TYPE,"Monitoring");
-        values.put(SterixContract.ServiceOrder.COLUMN_LOCATION,"Nesle Canlubang");
-        values.put(SterixContract.ServiceOrder.COLUMN_START_DATE,"2017-07-26");
-        values.put(SterixContract.ServiceOrder.COLUMN_START_TIME,"00:00:00");
-        values.put(SterixContract.ServiceOrder.COLUMN_END_DATE,"2017-07-26");
-        values.put(SterixContract.ServiceOrder.COLUMN_END_TIME,"00:00:00");
-        values.put(SterixContract.ServiceOrder.COLUMN_STATUS,"Accepted/In Progress");
-
-        database.insert(SterixContract.ServiceOrder.TABLE_NAME, null, values);
-
-        // Initialize Service Order Tasks
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"3");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Login guard house");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"5:45 AM");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"5");
-        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"3");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Preparation of needed materials");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"6:00 AM");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"5");
-        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"3");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Inspection of exterior areas");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"6:30 AM");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"5");
-        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-
-        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"3");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Inspection of back area going to canteen");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"6:48 AM");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"5");
-        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-
-        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"3");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Inspection and Monitoring At canteen Area and front area of the warehouse");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"6:54 AM");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"5");
-        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"3");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Cleaning, Inspection, and Updating of (replenishment of bait if needed) of Cage Traps # 1-18\n" +
-                "Inspection and Montioring of  Loading Area, guard houase, Comfort  Rooms, Maintenance area, Battery Charging Area and BO Area");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"7:08 AM");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"5");
-        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"3");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Prepare Materials needed for Inspection of Glue traps (Rugs, Glue traps, White Board marker, etc)\n");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"7:25 AM");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"5");
-        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
-
-
-        // Initialize Service Order Areas
-
-
-    }
-
-    public void insertToDB(){
-
-        SQLiteDatabase database = new SterixDBHelper(this).getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        String count = "SELECT count(*) FROM "+SterixContract.ServiceOrder.TABLE_NAME;
+        String count = "SELECT count(*) FROM "+SterixContract.DeviceActivity.TABLE_NAME;
         Cursor mcursor = database.rawQuery(count, null);
         mcursor.moveToFirst();
         int icount = mcursor.getInt(0);
         if(icount>0)
             return;
-
-        // Initialize Service Orders
-
-        values.put(SterixContract.ServiceOrder.COLUMN_SERVICE_TYPE,"Monitoring");
-        values.put(SterixContract.ServiceOrder.COLUMN_LOCATION,"Jollibee Junction");
-        values.put(SterixContract.ServiceOrder.COLUMN_START_DATE,"2017-07-26");
-        values.put(SterixContract.ServiceOrder.COLUMN_START_TIME,"00:00:00");
-        values.put(SterixContract.ServiceOrder.COLUMN_END_DATE,"2017-07-26");
-        values.put(SterixContract.ServiceOrder.COLUMN_END_TIME,"00:00:00");
-        values.put(SterixContract.ServiceOrder.COLUMN_STATUS,"Accepted/In Progress");
-
-        database.insert(SterixContract.ServiceOrder.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrder.COLUMN_SERVICE_TYPE,"Monitoring");
-        values.put(SterixContract.ServiceOrder.COLUMN_LOCATION,"Bonchon Solenad 3");
-        values.put(SterixContract.ServiceOrder.COLUMN_START_DATE,"2017-12-22");
-        values.put(SterixContract.ServiceOrder.COLUMN_START_TIME,"00:00:00");
-        values.put(SterixContract.ServiceOrder.COLUMN_END_DATE,"2017-07-26");
-        values.put(SterixContract.ServiceOrder.COLUMN_END_TIME,"00:00:00");
-        values.put(SterixContract.ServiceOrder.COLUMN_STATUS,"Accepted/In Progress");
-
-        database.insert(SterixContract.ServiceOrder.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        // Initialize Service Order Tasks
-
-        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"1");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Login at Guard House");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"6:00 AM");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"0");
-        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"1");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Prepare Materials");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"6:10 AM");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"0");
-        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"1");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Conduct Monitoring");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"7:00 AM");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"0");
-        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"2");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Login at Guard House");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"3:00 PM");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"0");
-        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"2");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Prepare Materials");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"3:10 PM");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"0");
-        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderTask.COLUMN_SERVICE_ORDER_ID,"2");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_TASK,"Conduct Monitoring");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_START_TIME,"4:00 PM");
-        values.put(SterixContract.ServiceOrderTask.COLUMN_STATUS,"0");
-        database.insert(SterixContract.ServiceOrderTask.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        // Initialize Service Order Areas
-
-        values.put(SterixContract.ServiceOrderArea.COLUMN_SERVICE_ORDER_ID,"1");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA_ID,"1");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA,"Outer Perimeter");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_STATUS,"0");
-        database.insert(SterixContract.ServiceOrderArea.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderArea.COLUMN_SERVICE_ORDER_ID,"1");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA_ID,"2");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA,"Dining Area");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_STATUS,"0");
-        database.insert(SterixContract.ServiceOrderArea.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderArea.COLUMN_SERVICE_ORDER_ID,"1");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA_ID,"3");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA,"Kitchen");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_STATUS,"0");
-        database.insert(SterixContract.ServiceOrderArea.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderArea.COLUMN_SERVICE_ORDER_ID,"2");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA_ID,"4");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA,"Outer Perimeter");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_STATUS,"0");
-        database.insert(SterixContract.ServiceOrderArea.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderArea.COLUMN_SERVICE_ORDER_ID,"2");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA_ID,"5");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA,"Dining Area");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_STATUS,"0");
-        database.insert(SterixContract.ServiceOrderArea.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderArea.COLUMN_SERVICE_ORDER_ID,"2");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA_ID,"6");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA,"Kitchen");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_STATUS,"0");
-        database.insert(SterixContract.ServiceOrderArea.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.ServiceOrderArea.COLUMN_SERVICE_ORDER_ID,"2");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA_ID,"7");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA,"Bathroom");
-        values.put(SterixContract.ServiceOrderArea.COLUMN_STATUS,"0");
-        database.insert(SterixContract.ServiceOrderArea.TABLE_NAME, null, values);
-
-        // Initialize Device Conditions
 
         values = new ContentValues();
         values.put(SterixContract.DeviceCondition.COLUMN_CONDITION_ID,"1");
@@ -436,7 +218,7 @@ public class LoginActivity extends AppCompatActivity {
 
         values = new ContentValues();
         values.put(SterixContract.DeviceActivity.COLUMN_DEVICE_ACTIVITY_ID,"2");
-        values.put(SterixContract.DeviceActivity.COLUMN_DEVICE_ACTIVITY_NAME,"Bait/Bulb Replaced");
+        values.put(SterixContract.DeviceActivity.COLUMN_DEVICE_ACTIVITY_NAME,"Bait /Bulb Replaced");
         database.insert(SterixContract.DeviceActivity.TABLE_NAME, null, values);
 
         values = new ContentValues();
@@ -453,52 +235,6 @@ public class LoginActivity extends AppCompatActivity {
         values.put(SterixContract.DeviceActivity.COLUMN_DEVICE_ACTIVITY_ID,"5");
         values.put(SterixContract.DeviceActivity.COLUMN_DEVICE_ACTIVITY_NAME,"Lure Replaced");
         database.insert(SterixContract.DeviceActivity.TABLE_NAME, null, values);
-
-        // Initialize Device Monitoring
-
-        values = new ContentValues();
-        values.put(SterixContract.DeviceMonitoring.COLUMN_SERVICE_ORDER_ID,"1");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_CLIENT_LOCATION_AREA_ID,"1");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CODE,"CTB001");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION_ID,"6");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY_ID,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_IMAGE,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_NOTES,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_TIMESTAMP,new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        database.insert(SterixContract.DeviceMonitoring.TABLE_NAME, null, values);
-
-        values = new ContentValues();
-
-        values.put(SterixContract.DeviceMonitoring.COLUMN_SERVICE_ORDER_ID,"1");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_CLIENT_LOCATION_AREA_ID,"1");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CODE,"CTB002");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION_ID,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY_ID,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_IMAGE,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_NOTES,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_TIMESTAMP,new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        database.insert(SterixContract.DeviceMonitoring.TABLE_NAME, null, values);
-
-
-        values = new ContentValues();
-
-        values.put(SterixContract.DeviceMonitoring.COLUMN_SERVICE_ORDER_ID,"1");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_CLIENT_LOCATION_AREA_ID,"2");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CODE,"CTB003");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION_ID,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY_ID,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_IMAGE,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_NOTES,"");
-        values.put(SterixContract.DeviceMonitoring.COLUMN_TIMESTAMP,new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-
-        database.insert(SterixContract.DeviceMonitoring.TABLE_NAME, null, values);
-
 
     }
 
@@ -542,12 +278,15 @@ public class LoginActivity extends AppCompatActivity {
 
                             if(response.get("success").toString().equals("true")) {
 
+                                Log.d("THERE","THERE");
+
                                 SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPref.edit();
                                 editor.putBoolean("LOGGED_IN", true);
                                 editor.putString("USERNAME", username);
                                 editor.putString("USER_ID", response.get("user_id").toString());
                                 editor.putString("IP", ip);
+                                editor.putInt("DEVICE_QUEUE_NUMBER",0);
                                 editor.commit();
 
 //                                syncData(response.get("user_id").toString());

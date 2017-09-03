@@ -103,7 +103,7 @@
                     >
                     <TextView
                         android:id="@+id/cell_deviceID"
-                        android:layout_width="wrap_content"
+                        android:layout_width="110dp"
                         android:layout_column="0"
                         android:layout_weight="1"
                         android:textColor="@color/black"

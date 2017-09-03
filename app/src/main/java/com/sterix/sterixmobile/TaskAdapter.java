@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,7 +57,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
         Task t = tasks.get(position);
-        holder.timeTextView.setText(t.getTime());
+//        Log.d("TRY", new SimpleDateFormat("hh:mm a").format(new Date()));
+        try {
+            String formatTime = new SimpleDateFormat("h:mm a").format(new SimpleDateFormat("hh:mm:ss").parse(t.getTime()));
+            holder.timeTextView.setText(formatTime);
+        }
+        catch (Exception e){
+
+            holder.timeTextView.setText(t.getTime());
+        }
+
         holder.taskTextView.setText(t.getTask());
         holder.taskTextView.setTag(t);
         holder.statusTextView.setText(t.getStatus()); //remove this later

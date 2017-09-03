@@ -87,6 +87,9 @@ public class AreaViewFindingActivity extends AppCompatActivity {
     }
 
     private ArrayList<Finding> getFindings(){
+        Log.d("FINDING","HERE");
+        Log.d("FINDING",m.getService_order_id());
+        Log.d("FINDING",m.getLocation_area_id());
 
         ArrayList<Finding> results = new ArrayList<>();
 
@@ -127,6 +130,7 @@ public class AreaViewFindingActivity extends AppCompatActivity {
             String finding = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.AreaFinding.COLUMN_FINDINGS));
             String recommendation = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.AreaFinding.COLUMN_RECOMMENDATIONS));
 
+            Log.d("FINDING",finding);
             Finding findingObj = new Finding(image,finding,recommendation);
             results.add(findingObj);
         }

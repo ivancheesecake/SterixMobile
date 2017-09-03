@@ -3,8 +3,11 @@ package com.sterix.sterixmobile;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -42,6 +45,7 @@ public class TasksActivity extends AppCompatActivity {
     private TaskAdapter taskAdapter;
     private Task t;
     public String service_order_id,service_order_location;
+    public String ip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,10 @@ public class TasksActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         //recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(taskAdapter);
+
+        SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
+        ip = sharedPref.getString("IP", "");
+
 
         prepareTasks();
 
@@ -124,12 +132,12 @@ public class TasksActivity extends AppCompatActivity {
 
         }
 
-        t = new Task(id,time, task, status,"monitoring");
-        tasks.remove(tasks.size()-1);
-        tasks.add(t);
-
+        //t = new Task(id,time, task, status,"monitoring");
+        //tasks.remove(tasks.size()-1);
+        //tasks.add(t);
 
         taskAdapter.notifyDataSetChanged();
+        database.close();
 
     }
 
@@ -149,6 +157,8 @@ public class TasksActivity extends AppCompatActivity {
             currentTask = tasks.get(i);
             if(currentTask.getId()==id){
 
+                // Perform change locally
+
                 currentTask.setStatus(Integer.toString(((Integer.parseInt(currentTask.getStatus())+1)%3)));
                 tasks.set(i,currentTask);
 
@@ -167,11 +177,24 @@ public class TasksActivity extends AppCompatActivity {
                 Log.d("count",Integer.toString(count));
                 Log.d("status",currentTask.getStatus());
 
-                // Perform change locally
 
                 // Perform change on server
+                if (isOnline())
+                    updateStatusOnServer(currentTask.getId(),currentTask.getStatus());
+                else{
+                    // Store updates locally
 
-                updateStatusOnServer(currentTask.getId(),currentTask.getStatus());
+                    SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
+                    String tasksUpdate = sharedPref.getString("TASK_UPDATES", "");
+                    tasksUpdate += currentTask.getId()+","+currentTask.getStatus()+"|";
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("TASK_UPDATES",tasksUpdate);
+                    editor.commit();
+
+                    Log.d("TASK_UPDATES",tasksUpdate);
+
+                }
+
 
                 if(currentTask.getStatus().equals("0")) {
                     v.setBackgroundColor(getResources().getColor(R.color.red));
@@ -249,7 +272,7 @@ public class TasksActivity extends AppCompatActivity {
     public void updateStatusOnServer(String task_id,String status){
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://10.0.63.39/SterixBackend/updateTaskStatus.php";
+        String url ="http://"+ip+"/SterixBackend/updateTaskStatus.php";
 
         HashMap params = new HashMap<String,String>();
         params.put("task_id",task_id);
@@ -284,6 +307,13 @@ public class TasksActivity extends AppCompatActivity {
 
         queue.add(request_json);
 
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 }

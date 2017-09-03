@@ -10,6 +10,9 @@
     <string name="submit">Submit</string>
     <string name="save">Save</string>
 
+    <string name="waiting_in_vain">Syncing with server. Please wait.</string>
+
+
     <string name="service_orders">Service Orders</string>
 
     <string name="next">Next Screen</string>

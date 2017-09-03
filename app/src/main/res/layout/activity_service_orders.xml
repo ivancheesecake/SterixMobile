@@ -28,16 +28,31 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         android:layout_below="@id/toolbar"
+        android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"/>
 
-    <ProgressBar
-        style="@style/CircularProgress"
-        android:id="@+id/progress"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        />
+        android:id="@+id/progress_wrapper"
+        >
+        <ProgressBar
+            style="@style/CircularProgress"
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_centerHorizontal="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/waiting_in_vain"
+            android:layout_below="@id/progress"
+            />
+    </RelativeLayout>
 
 
 </RelativeLayout>

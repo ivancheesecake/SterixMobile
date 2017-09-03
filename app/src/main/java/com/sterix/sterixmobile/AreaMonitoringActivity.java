@@ -1,9 +1,13 @@
 package com.sterix.sterixmobile;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,12 +21,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 public class AreaMonitoringActivity extends AppCompatActivity {
 
     Monitoring m;
     String service_order_location;
+    String ip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +50,8 @@ public class AreaMonitoringActivity extends AppCompatActivity {
         TextView tv_location = (TextView) findViewById(R.id.area_monitoring_location);
         tv_location.setText(m.getLocation());
 
+        SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
+        ip = sharedPref.getString("IP", "");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -171,6 +189,14 @@ public class AreaMonitoringActivity extends AppCompatActivity {
                 values.put(SterixContract.AreaMonitoringPest.COLUMN_NUMBER,pestNumbers[i]);
                 database.insert(SterixContract.AreaMonitoringPest.TABLE_NAME, null, values);
 
+                if(isOnline()){
+                    // One day, minimize number of requests, this works for now
+                    insertAreaMonitoringPestToServer(m.getService_order_id(),m.getLocation_area_id(),i+"",pestNumbers[i]);
+                }
+                else{
+                    database.insert(SterixContract.AreaMonitoringPestQueue.TABLE_NAME, null, values);
+                }
+
             }
         }
 
@@ -243,5 +269,55 @@ public class AreaMonitoringActivity extends AppCompatActivity {
         database.close();
 
     }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    public void insertAreaMonitoringPestToServer(String service_order_id, String client_location_area_ID,String pest_id, String number){
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="http://"+ip+"/SterixBackend/insertAreaMonitoringPest.php";
+
+        HashMap params = new HashMap<String,String>();
+        params.put("service_order_id",service_order_id);
+        params.put("client_location_area_id",client_location_area_ID);
+        params.put("pest_id",pest_id);
+        params.put("number",number);
+
+        JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if(response.get("success").toString().equals("true")) {
+                                Toast toast = Toast.makeText(getApplicationContext(),"Area monitoring pest data for area "+service_order_location+" was successfully updated in the server!", Toast.LENGTH_SHORT);
+                                toast.show();
+
+                            }
+                            else{
+
+                                Toast toast = Toast.makeText(getApplicationContext(),"Cannot connect to server.", Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        });
+
+        queue.add(request_json);
+
+    }
+
 
 }

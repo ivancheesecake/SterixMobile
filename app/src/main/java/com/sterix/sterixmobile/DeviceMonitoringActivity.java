@@ -1,9 +1,13 @@
 package com.sterix.sterixmobile;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -23,13 +27,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class DeviceMonitoringActivity extends AppCompatActivity {
@@ -50,6 +67,8 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
     ArrayList<String> activitiesList;
     Spinner conditionsSpinner,activitySpinner;
     Monitoring m;
+    public String ip;
+    int device_queue_number;
 
 
 
@@ -72,6 +91,12 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setSubtitle(service_order_location);
         setSupportActionBar(toolbar);
+
+        // Fetch IP Address
+
+        SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
+        ip = sharedPref.getString("IP", "");
+        device_queue_number = sharedPref.getInt("DEVICE_QUEUE_NUMBER", 0);
 
         // Fetch data from previous activity
 
@@ -250,32 +275,6 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
                     barcodeInfo.post(new Runnable() {    // Use the post method of the TextView
                         public void run() {
 
-
-
-
-                            //Log.d("CODE", Boolean.toString(barcodes.valueAt(0).displayValue.toString().equals("a")) );
-
-//                            if(barcodes.valueAt(0).displayValue.toString().equals("a")) {
-//
-//                                barcodeInfo.setText(    // Update the TextView
-//                                        barcodes.valueAt(0).displayValue
-//                                );
-//
-//
-//                                cameraSource.stop();
-//                                barcodeDetector.release();
-//                                cameraView.setVisibility(View.GONE);
-//
-//
-//                                Toast toast = Toast.makeText(getApplicationContext(), "Device " + barcodes.valueAt(0).displayValue + " was detected!", Toast.LENGTH_SHORT);
-//                                toast.show();
-//                                enableForms();
-//                            }
-//                            else{
-//
-//                                Log.d("WHY","WHY?");
-//                            }
-
                             for(int a = 0; a< devices.size(); a++){
 
                                 Log.d("A", devices.get(a).get("device_code"));
@@ -446,7 +445,7 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
 
         String selection = SterixContract.DeviceMonitoring.COLUMN_SERVICE_ORDER_ID +" = ? and "+ SterixContract.DeviceMonitoring.COLUMN_CLIENT_LOCATION_AREA_ID +" = ?";
         String selectionArgs[] = {service_order_id,location_area_id};
-        String sortOrder = SterixContract.ServiceOrderArea._ID +" ASC";
+        String sortOrder = SterixContract.DeviceMonitoring._ID +" ASC";
 
         Cursor cursor = database.query(
                 SterixContract.DeviceMonitoring.TABLE_NAME,                     // The table to query
@@ -548,7 +547,7 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
                 SterixContract.DeviceActivity.TABLE_NAME,                     // The table to query
                 projection,                               // The columns to return
                 null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
+                null,                            // The values for the WHERE clausedd
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
                 sortOrder                                 // The sort order
@@ -604,7 +603,8 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         // Update device monitoring row
         SQLiteDatabase db = new SterixDBHelper(this).getWritableDatabase();
         ContentValues values = new ContentValues();
-        
+        ContentValues values2 = new ContentValues();
+
         String condition = conditionsSpinner.getSelectedItem().toString();
         String conditionId="";
 
@@ -630,6 +630,18 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
             activity = "";
 
         values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY,activity);
+
+        // Update current devices object
+
+        for(int i=0; i<devices.size();i++){
+
+            if(devices.get(i).get("id").equals(currentDevice.get("id"))){
+                currentDevice.put("device_condition",condition);
+                currentDevice.put("activity",activity);
+                devices.set(i,currentDevice);
+                break;
+            }
+        }
 
         values.put(SterixContract.DeviceMonitoring.COLUMN_IMAGE,photoPath);
         values.put(SterixContract.DeviceMonitoring.COLUMN_NOTES,photoNotes);
@@ -699,37 +711,65 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
 
         String[] pestNumbers = {ar,gr,ant,mos,hf,bf,df,pf,ff,fm,hm,rr,nr,cb,rfb,liz,sp,bi,oth};
 
+        JSONArray pestInfo = new JSONArray();
         for(int i=0; i<pestNumbers.length; i++){
 
             if(!pestNumbers[i].equals("")){
 
                 // Insert!
+                JSONObject obj = new JSONObject();
                 values = new ContentValues();
+
                 values.put(SterixContract.DeviceMonitoringPest.COLUMN_SERVICE_ORDER_ID,m.getService_order_id());
                 values.put(SterixContract.DeviceMonitoringPest.COLUMN_DEVICE_MONITORING_ID,currentDevice.get("id"));
+                values.put(SterixContract.DeviceMonitoringPest.COLUMN_DEVICE_CODE,currentDevice.get("device_code"));
                 values.put(SterixContract.DeviceMonitoringPest.COLUMN_PEST_ID,i+"");
                 values.put(SterixContract.DeviceMonitoringPest.COLUMN_NUMBER,pestNumbers[i]);
+
+                values2 = new ContentValues();
+
+                values2.put(SterixContract.DeviceMonitoringPestQueue.COLUMN_SERVICE_ORDER_ID,m.getService_order_id());
+                values2.put(SterixContract.DeviceMonitoringPestQueue.COLUMN_DEVICE_MONITORING_ID,currentDevice.get("id"));
+                values2.put(SterixContract.DeviceMonitoringPestQueue.COLUMN_DEVICE_CODE,currentDevice.get("device_code"));
+                values2.put(SterixContract.DeviceMonitoringPestQueue.COLUMN_PEST_ID,i+"");
+                values2.put(SterixContract.DeviceMonitoringPestQueue.COLUMN_NUMBER,pestNumbers[i]);
+                values2.put(SterixContract.DeviceMonitoringPestQueue.COLUMN_QUEUE_NUMBER,Integer.toString(device_queue_number));
+
+                try {
+                    obj.put("device_monitoring_id", currentDevice.get("id"));
+                    obj.put("pest_id", i+"");
+                    obj.put("number", pestNumbers[i]);
+
+                }catch(Exception e){}
+
+                pestInfo.put(obj);
+
                 db.insert(SterixContract.DeviceMonitoringPest.TABLE_NAME, null, values);
 
+                if (!isOnline()) {
+                    db.insert(SterixContract.DeviceMonitoringPestQueue.TABLE_NAME, null, values2);
+                }
             }
         }
-        
+
+
 
         Toast t = Toast.makeText(getApplicationContext(),"Device information updated.",Toast.LENGTH_SHORT);
         t.show();
 
-        db.close();
-        //Start another instance of Device Monitoring
+        if (isOnline()) {
+            insertDeviceMonitoringToServer(service_order_id, currentDevice.get("device_code"), location_area_id, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), conditionId, activityId,pestInfo,photoPath,photoNotes);
+//            db.execSQL("delete from " + SterixContract.DeviceMonitoringPestQueue.TABLE_NAME + " where device_monitoring_id = "+currentDevice.get("id"));
 
-//        Intent areaMonitoringIntent = new Intent(getApplicationContext(), DeviceMonitoringActivity.class);
-//        areaMonitoringIntent.putExtra("DEVICE_MONITORING_PARCEL", m);
-//        areaMonitoringIntent.putExtra("LOCATION_AREA_ID", m.getLocation_area_id());
-//        areaMonitoringIntent.putExtra("SERVICE_ORDER_ID", m.getService_order_id());
-//        areaMonitoringIntent.putExtra("SERVICE_ORDER_LOCATION", service_order_location);
-//        startActivity(areaMonitoringIntent);
-//
-//        // Finish current instance
-//        finish();
+        }
+        else{
+            // Store updates locally
+            insertDeviceMonitoringToQueue(service_order_id,currentDevice.get("device_code"),location_area_id,new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),conditionId,activityId,photoPath,photoNotes);
+            Log.d("INTERNETS?","WALANG INTERNET, PARANG PAG-ASA SA KANYA");
+
+        }
+
+        db.close();
 
     }
 
@@ -749,6 +789,8 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
 
     public void populatePests(){
 
+        Log.d("POPULATE_PESTS","HERE");
+
         SQLiteDatabase database = new SterixDBHelper(this).getWritableDatabase();
 
         String[] projection = {
@@ -760,8 +802,8 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         };
 
 
-        String selection = SterixContract.DeviceMonitoringPest.COLUMN_DEVICE_MONITORING_ID +" = ?";
-        String selectionArgs[] = {currentDevice.get("id")};
+        String selection = SterixContract.DeviceMonitoringPest.COLUMN_DEVICE_CODE +" = ?";
+        String selectionArgs[] = {currentDevice.get("device_code")};
         String sortOrder = SterixContract.DeviceMonitoringPest._ID +" ASC";
 
         Cursor cursor = database.query(
@@ -796,18 +838,106 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         pestResource.put("17",R.id.device_bi);
         pestResource.put("18",R.id.device_oth);
 
+        Log.d("CURRENT",currentDevice.get("id"));
+
 
         while (cursor.moveToNext()) {
 
             String id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoringPest._ID));
             String pest_id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoringPest.COLUMN_PEST_ID));
+            String monitoring_id = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoringPest.COLUMN_DEVICE_MONITORING_ID));
             String number = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoringPest.COLUMN_NUMBER));
+
+            Log.d("ID",id);
+            Log.d("PEST_ID",pest_id);
+            Log.d("MONITORING_ID",monitoring_id);
+            Log.d("NUMBER",number);
 
             EditText et = (EditText) findViewById(pestResource.get(pest_id));
             et.setText(number);
         }
 
         database.close();
+
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    public void insertDeviceMonitoringToServer(String service_order_id, final String device_code, String client_location_area_ID, String timestamp, String device_condition_ID, String activity_ID, JSONArray pestInfo,String photoPath,String photoNotes){
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="http://"+ip+"/SterixBackend/insertDeviceMonitoring.php";
+
+        Log.d("PEST_INFO",pestInfo.toString());
+
+        HashMap params = new HashMap<String,String>();
+        params.put("service_order_id",service_order_id);
+        params.put("device_code",device_code);
+        params.put("client_location_area_ID",client_location_area_ID);
+        params.put("timestamp",timestamp);
+        params.put("device_condition_ID",device_condition_ID);
+        params.put("activity_ID",activity_ID);
+        params.put("pest_info",pestInfo.toString());
+        params.put("photo_path",photoPath);
+        params.put("photo_notes",photoNotes);
+
+
+        JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if(response.get("success").toString().equals("true")) {
+                                Toast toast = Toast.makeText(getApplicationContext(),"Device monitoring data for device "+device_code+" was successfully updated in the server!", Toast.LENGTH_SHORT);
+                                toast.show();
+
+                            }
+                            else{
+
+                                Toast toast = Toast.makeText(getApplicationContext(),"Cannot connect to server.", Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        });
+
+        queue.add(request_json);
+
+    }
+
+    public void insertDeviceMonitoringToQueue(String service_order_id, final String device_code, String client_location_area_ID, String timestamp, String device_condition_ID, String activity_ID){
+
+        SQLiteDatabase db = new SterixDBHelper(this).getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(SterixContract.DeviceMonitoringQueue.COLUMN_SERVICE_ORDER_ID,service_order_id);
+        values.put(SterixContract.DeviceMonitoringQueue.COLUMN_DEVICE_CODE,device_code);
+        values.put(SterixContract.DeviceMonitoringQueue.COLUMN_CLIENT_LOCATION_AREA_ID,client_location_area_ID);
+        values.put(SterixContract.DeviceMonitoringQueue.COLUMN_TIMESTAMP,timestamp);
+        values.put(SterixContract.DeviceMonitoringQueue.COLUMN_DEVICE_CONDITION_ID,device_condition_ID);
+        values.put(SterixContract.DeviceMonitoringQueue.COLUMN_ACTIVITY_ID,activity_ID);
+        values.put(SterixContract.DeviceMonitoringQueue.COLUMN_QUEUE_NUMBER,Integer.toString(device_queue_number));
+        db.insert(SterixContract.DeviceMonitoringQueue.TABLE_NAME, null, values);
+
+        device_queue_number++;
+
+        SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("DEVICE_QUEUE_NUMBER",device_queue_number);
+        editor.commit();
 
     }
 
