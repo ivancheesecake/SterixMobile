@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -12,6 +14,7 @@ import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -65,6 +68,7 @@ public class ServiceOrdersActivity extends AppCompatActivity {
     public String ip;
     public ProgressBar progress;
     public RelativeLayout progressWrapper;
+    String uploaded;
 
 
     @Override
@@ -93,6 +97,7 @@ public class ServiceOrdersActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
         String userId = sharedPref.getString("USER_ID", "");
         ip = sharedPref.getString("IP", "");
+        uploaded = sharedPref.getString("DM_IMAGES_UPLOADED","");
 
         Log.d("AM_PEST_QUEUE",processAreaMonitoringPestQueue());
 
@@ -132,7 +137,9 @@ public class ServiceOrdersActivity extends AppCompatActivity {
             }
         });
 
-        imageUpload();
+//        imageUpload();
+
+
 
     }
 
@@ -344,6 +351,8 @@ public class ServiceOrdersActivity extends AppCompatActivity {
 
         database.execSQL("delete from "+SterixContract.DeviceMonitoring.TABLE_NAME);
 
+
+
         for(int i=0;i<deviceMonitoring.length();i++) {
             try{
                 ContentValues values = new ContentValues();
@@ -357,7 +366,12 @@ public class ServiceOrdersActivity extends AppCompatActivity {
                 values.put(SterixContract.DeviceMonitoring.COLUMN_DEVICE_CONDITION,obj.getString("device_condition"));
                 values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY_ID,obj.getString("activity_ID"));
                 values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY,obj.getString("activity"));
-                values.put(SterixContract.DeviceMonitoring.COLUMN_IMAGE,obj.getString("photo"));
+                String photo = obj.getString("photo");
+                Log.d("PATH",getExternalFilesDir(Environment.DIRECTORY_PICTURES)+"/files/Photos/"+photo);
+                if(!photo.equals(""))
+                    values.put(SterixContract.DeviceMonitoring.COLUMN_IMAGE,getExternalFilesDir(Environment.DIRECTORY_PICTURES)+"/"+photo);
+                else
+                    values.put(SterixContract.DeviceMonitoring.COLUMN_IMAGE,photo);
                 values.put(SterixContract.DeviceMonitoring.COLUMN_NOTES,obj.getString("notes"));
                 values.put(SterixContract.DeviceMonitoring.COLUMN_TIMESTAMP,"timestamp");
 
@@ -577,7 +591,11 @@ public class ServiceOrdersActivity extends AppCompatActivity {
                 temp.put("device_condition_id", device_condition_id);
                 temp.put("activity_id", activity_id);
                 temp.put("timestamp", timestamp);
-                temp.put("image", image);
+                temp.put("image", image.split("/")[9]);
+
+                //Upload photo
+                uploadPhoto(image);
+
                 temp.put("notes", notes);
                 // There will be redundant queries in the server
                 // processDeviceMonitoringPestQueue(queue_number)
@@ -801,37 +819,21 @@ public class ServiceOrdersActivity extends AppCompatActivity {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-    public void imageUpload(){
+    public void uploadPhoto(String imgPath){
         Log.d("HI!","HI!");
 
-        SQLiteDatabase database = new SterixDBHelper(this).getWritableDatabase();
+        Log.d("Uploaded",uploaded);
 
-        String[] projection = {
-                SterixContract.DeviceMonitoring.COLUMN_IMAGE
-        };
+        String filename = imgPath.split("/")[9];
 
-        Cursor cursor = database.query(
-                SterixContract.DeviceMonitoring.TABLE_NAME,                     // The table to query
-                projection,                               // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                null                                // The sort order
-        );
-
-        String imgPath ="";
-
-        while(cursor.moveToNext()){
-            imgPath = cursor.getString(cursor.getColumnIndexOrThrow(SterixContract.DeviceMonitoring.COLUMN_IMAGE));
-            if(!imgPath.equals(""))
-                break;
+        if(!uploaded.contains(filename)) {
+            Log.d("Uploaded","HINDI PA NAAUPLOAD ITO");
+            encodeImagetoString(imgPath);
         }
+        else{
+            Log.d("Uploaded","UPLOADED NA");
 
-        Log.d("IMG",imgPath);
-        database.close();
-
-        encodeImagetoString(imgPath);
+        }
     }
 
     String encodedString;
@@ -865,46 +867,53 @@ public class ServiceOrdersActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(String msg) {
-//                prgDialog.setMessage("Calling Upload");
-                // Put converted Image string into Async Http Post param
-//                params.put("image", encodedString);
-                // Trigger Image upload
                 triggerUpload(encodedString,imgPath);
                 Log.d("IMG","Encoding Finished!");
             }
         }.execute(null, null, null);
     }
 
-    public void triggerUpload(String encoded,String imgPath){
+    String filenameShort = "";
+
+    public void triggerUpload(String encoded, final String filename){
+
+        filenameShort = filename.split("/")[9];
 
         HashMap<String,String> params = new HashMap<>();
         params.put("encoded",encoded);
-        params.put("filename","try50.jpg");
+        params.put("filename",filenameShort);
 
-        Log.d("IMG",imgPath.split("/")[9]);
 
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        String url ="http://"+ip+"/SterixBackend/imageUpload.php";
-//
-//        JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-////                        new ProcessResponseTask().execute(response);
-//                        Log.d("IMG","Success");
-//
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.d("Error: ", "WHY LISA, WHY?");
-//                VolleyLog.e("Error: ", error.getMessage());
-//            }
-//        });
-//
-//        Log.d("IMG","Uploading");
-//        queue.add(request_json);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="http://"+ip+"/SterixBackend/imageUpload.php";
 
+        JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("IMG","Success");
+                        uploaded += filenameShort +",";
+                        Log.d("UPLOADED_UPDATE",uploaded);
+
+
+                        SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("DM_IMAGES_UPLOADED",uploaded);
+                        editor.commit();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error: ", "WHY LISA, WHY?");
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        });
+
+        Log.d("IMG","Uploading");
+        queue.add(request_json);
+
+//        Toast t = Toast.makeText(getr);
     }
 
 

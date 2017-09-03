@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
@@ -43,6 +47,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,6 +74,7 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
     Monitoring m;
     public String ip;
     int device_queue_number;
+    String uploaded;
 
 
 
@@ -97,6 +103,7 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
         ip = sharedPref.getString("IP", "");
         device_queue_number = sharedPref.getInt("DEVICE_QUEUE_NUMBER", 0);
+        uploaded = sharedPref.getString("DM_IMAGES_UPLOADED","");
 
         // Fetch data from previous activity
 
@@ -759,6 +766,7 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
 
         if (isOnline()) {
             insertDeviceMonitoringToServer(service_order_id, currentDevice.get("device_code"), location_area_id, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), conditionId, activityId,pestInfo,photoPath,photoNotes);
+            uploadPhoto(photoPath);
 //            db.execSQL("delete from " + SterixContract.DeviceMonitoringPestQueue.TABLE_NAME + " where device_monitoring_id = "+currentDevice.get("id"));
 
         }
@@ -883,7 +891,7 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         params.put("device_condition_ID",device_condition_ID);
         params.put("activity_ID",activity_ID);
         params.put("pest_info",pestInfo.toString());
-        params.put("photo_path",photoPath);
+        params.put("photo_path",photoPath.split("/")[9]);
         params.put("photo_notes",photoNotes);
 
 
@@ -941,6 +949,104 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         editor.putInt("DEVICE_QUEUE_NUMBER",device_queue_number);
         editor.commit();
 
+    }
+
+
+    public void uploadPhoto(String imgPath){
+        Log.d("HI!","HI!");
+
+        Log.d("Uploaded",uploaded);
+
+        String filename = imgPath.split("/")[9];
+
+        if(!uploaded.contains(filename)) {
+            Log.d("Uploaded","HINDI PA NAAUPLOAD ITO");
+            encodeImagetoString(imgPath);
+        }
+        else{
+            Log.d("Uploaded","UPLOADED NA");
+
+        }
+    }
+
+    String encodedString;
+//    RequestParams params = new RequestParams();
+
+    public void encodeImagetoString(final String imgPath) {
+        new AsyncTask<Void, Void, String>() {
+
+            protected void onPreExecute() {
+
+            };
+
+            @Override
+            protected String doInBackground(Void... params) {
+
+                Bitmap bitmap;
+
+                BitmapFactory.Options options = null;
+                options = new BitmapFactory.Options();
+                options.inSampleSize = 3;
+                bitmap = BitmapFactory.decodeFile(imgPath,
+                        options);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                // Must compress the Image to reduce image size to make upload easy
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 30, stream);
+                byte[] byte_arr = stream.toByteArray();
+                // Encode Image to String
+                encodedString = Base64.encodeToString(byte_arr, 0);
+                return "";
+            }
+
+            @Override
+            protected void onPostExecute(String msg) {
+                triggerUpload(encodedString,imgPath);
+                Log.d("IMG","Encoding Finished!");
+            }
+        }.execute(null, null, null);
+    }
+
+    String filenameShort = "";
+
+    public void triggerUpload(String encoded, final String filename){
+
+        filenameShort = filename.split("/")[9];
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("encoded",encoded);
+        params.put("filename",filenameShort);
+
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="http://"+ip+"/SterixBackend/imageUpload.php";
+
+        JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("IMG","Success");
+                        uploaded += filenameShort +",";
+                        Log.d("UPLOADED_UPDATE",uploaded);
+
+
+                        SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("DM_IMAGES_UPLOADED",uploaded);
+                        editor.commit();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error: ", "WHY LISA, WHY?");
+                VolleyLog.e("Error: ", error.getMessage());
+            }
+        });
+
+        Log.d("IMG","Uploading");
+        queue.add(request_json);
+
+//        Toast t = Toast.makeText(getr);
     }
 
 

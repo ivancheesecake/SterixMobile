@@ -287,6 +287,8 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.putString("USER_ID", response.get("user_id").toString());
                                 editor.putString("IP", ip);
                                 editor.putInt("DEVICE_QUEUE_NUMBER",0);
+                                editor.putString("DM_IMAGES_UPLOADED","");
+                                editor.putString("AM_IMAGES_UPLOADED","");
                                 editor.commit();
 
 //                                syncData(response.get("user_id").toString());
