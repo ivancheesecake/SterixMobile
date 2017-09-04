@@ -272,7 +272,7 @@ public class TasksActivity extends AppCompatActivity {
     public void updateStatusOnServer(String task_id,String status){
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://"+ip+"/SterixBackend/updateTaskStatus.php";
+        String url ="https://"+ip+"/SterixBackend/updateTaskStatus.php";
 
         HashMap params = new HashMap<String,String>();
         params.put("task_id",task_id);

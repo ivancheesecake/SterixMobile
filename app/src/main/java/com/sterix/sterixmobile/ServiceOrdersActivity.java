@@ -162,7 +162,7 @@ public class ServiceOrdersActivity extends AppCompatActivity {
         params.put("area_monitoring_pest_updates",processAreaMonitoringPestQueue());
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://"+ip+"/SterixBackend/sync.php";
+        String url ="https://"+ip+"/SterixBackend/sync.php";
 
         JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
@@ -885,7 +885,7 @@ public class ServiceOrdersActivity extends AppCompatActivity {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://"+ip+"/SterixBackend/imageUpload.php";
+        String url ="https://"+ip+"/SterixBackend/imageUpload.php";
 
         JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {

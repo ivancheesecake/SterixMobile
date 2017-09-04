@@ -264,8 +264,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // Request a string response from the provided URL.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://"+ip+"/SterixBackend/login.php";
-//        String url ="http://192.168.1.17/Sterix/login.php";
+        String url ="https://"+ip+"/SterixBackend/login.php";
+//        String url ="https://192.168.1.17/Sterix/login.php";
 
         final TextView mTextView = (TextView) findViewById(R.id.credentials);
 
