@@ -166,8 +166,8 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         activitySpinner.setEnabled(false);
         activitySpinner.setClickable(false);
 
-        ptl = (Button) findViewById(R.id.device_ptl);
-        ptl.setClickable(false);
+//        ptl = (Button) findViewById(R.id.device_ptl);
+//        ptl.setClickable(false);
 
         ar = (EditText) findViewById(R.id.device_ar);
         ar.setClickable(false);
@@ -367,8 +367,8 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
         activitySpinner.setEnabled(true);
         activitySpinner.setClickable(true);
 
-        ptl.setClickable(true);
-        ptl.setBackgroundResource(R.drawable.curved_borders_blue);
+//        ptl.setClickable(true);
+//        ptl.setBackgroundResource(R.drawable.curved_borders_blue);
 
         ar.setEnabled(true);
         gr.setEnabled(true);

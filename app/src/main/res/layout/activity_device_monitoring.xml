@@ -259,17 +259,17 @@
                     android:layout_centerVertical="true"
                     />
 
-                <Button
+                <!--<Button-->
 
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/curved_borders_lightblue"
-                    android:text="@string/ptl"
-                    android:textColor="@color/white"
-                    android:layout_height="30dp"
-                    android:layout_width="40dp"
-                    android:id="@+id/device_ptl"
-                    />
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:background="@drawable/curved_borders_lightblue"-->
+                    <!--android:text="@string/ptl"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:layout_width="40dp"-->
+                    <!--android:id="@+id/device_ptl"-->
+                    <!--/>-->
 
             </RelativeLayout>
 
@@ -611,7 +611,7 @@
             android:orientation="horizontal"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:paddingRight="5dp"
+
             android:layout_below="@+id/device_monitoring_row5"
             android:id="@+id/device_monitoring_row6"
             android:layout_marginBottom="5dp"

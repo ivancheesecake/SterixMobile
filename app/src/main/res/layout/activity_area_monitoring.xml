@@ -155,16 +155,16 @@
                         android:layout_centerVertical="true"
                         />
 
-                    <Button
+                    <!--<Button-->
 
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/curved_borders_blue"
-                        android:text="@string/ptl"
-                        android:textColor="@color/white"
-                        android:layout_height="30dp"
-                        android:layout_width="40dp"
-                        />
+                        <!--android:layout_alignParentEnd="true"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:background="@drawable/curved_borders_blue"-->
+                        <!--android:text="@string/ptl"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:layout_height="30dp"-->
+                        <!--android:layout_width="40dp"-->
+                        <!--/>-->
 
                 </RelativeLayout>
 

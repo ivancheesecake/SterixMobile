@@ -99,7 +99,7 @@ public class MonitoringActivity extends AppCompatActivity {
 
         String selection = SterixContract.ServiceOrderArea.COLUMN_SERVICE_ORDER_ID +" = ?";
         String selectionArgs[] = {service_order_id};
-        String sortOrder = SterixContract.ServiceOrderArea._ID +" ASC";
+        String sortOrder = SterixContract.ServiceOrderArea.COLUMN_CLIENT_LOCATION_AREA +" ASC";
 
         Cursor cursor = database.query(
                 SterixContract.ServiceOrderArea.TABLE_NAME,                     // The table to query
