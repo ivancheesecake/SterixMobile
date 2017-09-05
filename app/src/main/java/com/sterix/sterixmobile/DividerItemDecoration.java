@@ -11,7 +11,7 @@ import android.view.View;
 
 /**
  * Created by Lincoln on 30/10/15.
- * http://www.androidhive.info/2016/01/android-working-with-recycler-view/
+ * https://www.androidhive.info/2016/01/android-working-with-recycler-view/
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 

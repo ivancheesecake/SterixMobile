@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 /**
  * Created by Admin on 8/9/2017.
- * Thanks to http://www.parcelabler.com/ for easy parcelable implementation
+ * Thanks to https://www.parcelabler.com/ for easy parcelable implementation
  */
 
 public class Monitoring implements Parcelable {

@@ -251,12 +251,12 @@ public class LoginActivity extends AppCompatActivity {
 
         et_username = (EditText) findViewById(R.id.login_username);
         et_password = (EditText) findViewById(R.id.login_password);
-        EditText et_ip = (EditText) findViewById(R.id.login_ip);
+//        EditText et_ip = (EditText) findViewById(R.id.login_ip);
 
         username = et_username.getText().toString();
         password = et_password.getText().toString();
 
-        ip = et_ip.getText().toString();
+        ip = "www.sterix.online";
 
         params = new HashMap<String,String>();
         params.put("username",username);
@@ -264,10 +264,10 @@ public class LoginActivity extends AppCompatActivity {
 
         // Request a string response from the provided URL.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://"+ip+"/SterixBackend/login.php";
-//        String url ="http://192.168.1.17/Sterix/login.php";
+        String url ="https://"+ip+"/SterixBackend/login.php";
+//        String url ="https://192.168.1.17/Sterix/login.php";
 
-        final TextView mTextView = (TextView) findViewById(R.id.credentials);
+//        final TextView mTextView = (TextView) findViewById(R.id.credentials);
 
 
         JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
@@ -302,8 +302,8 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             else{
                                 Log.d("OK?","OK.");
-                                //Toast toast = Toast.makeText(getApplicationContext(),"Invalid login credentials.", Toast.LENGTH_SHORT);
-                                //toast.show();
+                                Toast toast = Toast.makeText(getApplicationContext(),"Invalid login credentials.", Toast.LENGTH_SHORT);
+                                toast.show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

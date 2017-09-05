@@ -14,19 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true">
 
-        <TextView
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/credentials"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="16dp"
-            android:textSize="18dp"
-            android:textAlignment="center"
-            android:id="@+id/credentials"
-
-            />
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:src="@drawable/sterix_logo"/>
 
 
         <android.support.design.widget.TextInputLayout
@@ -41,9 +37,6 @@
                 android:id="@+id/login_username"
                 android:hint="@string/username"
                 android:layout_marginBottom="8dp"
-                android:text ="ivan"
-
-                
                 />
         </android.support.design.widget.TextInputLayout>
 
@@ -60,9 +53,6 @@
                 android:hint="@string/password"
                 android:layout_marginBottom="8dp"
                 android:inputType="textPassword"
-                android:text ="ivan"
-
-
                 />
         </android.support.design.widget.TextInputLayout>
 
@@ -72,16 +62,15 @@
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/login_ip"
-                android:hint="@string/ip"
-                android:layout_marginBottom="8dp"
-                android:text ="192.168.1.17"
-
-
-                />
+            <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/login_ip"-->
+                <!--android:hint="@string/ip"-->
+                <!--android:layout_marginBottom="8dp"-->
+                <!--android:text ="192.168.1.17"-->
+                <!---->
+                <!--/>-->
         </android.support.design.widget.TextInputLayout>
 
         <Button

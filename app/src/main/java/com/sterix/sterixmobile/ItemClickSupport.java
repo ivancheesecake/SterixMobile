@@ -1,5 +1,5 @@
 /*
-*  Source: http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/
+*  Source: https://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/
 *  Thanks to this post for getting me out of a pinch
 * */
 

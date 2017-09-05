@@ -270,7 +270,7 @@ public class AreaAddFindingActivity extends AppCompatActivity {
     public void insertAreaMonitoringToServer(String service_order_id, String client_location_area_ID,String findings,String proposed_action,String timestamp){
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://"+ip+"/SterixBackend/insertAreaMonitoring.php";
+        String url ="https://"+ip+"/SterixBackend/insertAreaMonitoring.php";
 
 //        Log.d("PEST_INFO",pestInfo.toString());
 

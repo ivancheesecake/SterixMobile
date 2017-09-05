@@ -893,7 +893,7 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
     public void insertDeviceMonitoringToServer(String service_order_id, final String device_code, String client_location_area_ID, String timestamp, String device_condition_ID, String activity_ID, JSONArray pestInfo,String photoPath,String photoNotes){
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://"+ip+"/SterixBackend/insertDeviceMonitoring.php";
+        String url ="https://"+ip+"/SterixBackend/insertDeviceMonitoring.php";
 
         Log.d("PEST_INFO",pestInfo.toString());
 
@@ -1032,7 +1032,7 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://"+ip+"/SterixBackend/imageUpload.php";
+        String url ="https://"+ip+"/SterixBackend/imageUpload.php";
 
         JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
