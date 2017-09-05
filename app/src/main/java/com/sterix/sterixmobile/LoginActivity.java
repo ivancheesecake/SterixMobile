@@ -264,8 +264,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // Request a string response from the provided URL.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://"+ip+"/SterixBackend/login.php";
-//        String url ="https://192.168.1.17/Sterix/login.php";
+        String url ="http://"+ip+"/SterixBackend/login.php";
+//        String url ="http://192.168.1.17/Sterix/login.php";
 
         final TextView mTextView = (TextView) findViewById(R.id.credentials);
 
@@ -312,7 +312,10 @@ public class LoginActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
+//                VolleyLog.e("Error: ", error.getMessage());
+                Toast t = Toast.makeText(getApplicationContext(),"Can't connect to server.",Toast.LENGTH_SHORT);
+                t.show();
+
             }
         });
 

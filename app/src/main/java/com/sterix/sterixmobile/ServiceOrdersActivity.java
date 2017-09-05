@@ -48,7 +48,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLConnection;
@@ -152,17 +155,17 @@ public class ServiceOrdersActivity extends AppCompatActivity {
 
         // Process Task Updates QUEUE
         // Cheap string implementation, will I transition to SQL? IDK.
+        Log.d("TASK_UPDATES",sharedPref.getString("TASK_UPDATES",""));
         params.put("task_updates",sharedPref.getString("TASK_UPDATES",""));
-
-        // Process Device Monitoring QUEUE
         params.put("device_monitoring_updates",processDeviceMonitoringQueue());
-//        Log.d("DEVICE_MONITORING_QUEUE",processDeviceMonitoringQueue());
-
         params.put("area_monitoring_updates",processAreaMonitoringQueue());
         params.put("area_monitoring_pest_updates",processAreaMonitoringPestQueue());
 
+        // Process existing images
+        params.put("existing_images",processExistingImages());
+
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://"+ip+"/SterixBackend/sync.php";
+        String url ="http://"+ip+"/SterixBackend/sync.php";
 
         JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
@@ -195,7 +198,7 @@ public class ServiceOrdersActivity extends AppCompatActivity {
             JSONObject response = params[0];
             try {
 
-//                            Log.d("Response",response.get("service_orders").toString());
+//                Log.d("IMAGES",response.get("existing_images").toString());
                 insertServiceOrders(new JSONArray(response.get("service_orders").toString()));
 
                 insertServiceOrderTasks(new JSONArray(response.get("service_order_tasks").toString()));
@@ -212,7 +215,8 @@ public class ServiceOrdersActivity extends AppCompatActivity {
 
 
                 // Empty update queues
-                SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);                SharedPreferences.Editor editor = sharedPref.edit();
+                SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("TASK_UPDATES","");
                 editor.commit();
 
@@ -224,6 +228,8 @@ public class ServiceOrdersActivity extends AppCompatActivity {
                 database.execSQL("delete from "+SterixContract.AreaMonitoringPestQueue.TABLE_NAME);
                 database.close();
 
+                // Decode Base64 Images
+                decodeImages(new JSONArray(response.get("images").toString()));
 
 
             } catch (JSONException e) {
@@ -367,7 +373,7 @@ public class ServiceOrdersActivity extends AppCompatActivity {
                 values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY_ID,obj.getString("activity_ID"));
                 values.put(SterixContract.DeviceMonitoring.COLUMN_ACTIVITY,obj.getString("activity"));
                 String photo = obj.getString("photo");
-                Log.d("PATH",getExternalFilesDir(Environment.DIRECTORY_PICTURES)+"/files/Photos/"+photo);
+//                Log.d("PATH",getExternalFilesDir(Environment.DIRECTORY_PICTURES)+"/files/Photos/"+photo);
                 if(!photo.equals(""))
                     values.put(SterixContract.DeviceMonitoring.COLUMN_IMAGE,getExternalFilesDir(Environment.DIRECTORY_PICTURES)+"/"+photo);
                 else
@@ -794,18 +800,29 @@ public class ServiceOrdersActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.action_settings:
-//                // User chose the "Settings" item, show the app settings UI...
-//                return true;
-//
-//            case R.id.action_favorite:
-//                // User chose the "Favorite" action, mark the current item
-//                // as a favorite...
-//                return true;
+            case R.id.menu_logout:
+
+                // Remove all sharedpreferences
+                SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.clear();
+                editor.commit();
+
+                // Destroy all previous activities and go back to login screen
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                Toast t = Toast.makeText(getApplicationContext(),"Successfully logged out!",Toast.LENGTH_SHORT);
+                t.show();
+
+                // Destroy current activity
+                finish();
+
+                return true;
 
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
+
                 return super.onOptionsItemSelected(item);
 
         }
@@ -885,7 +902,7 @@ public class ServiceOrdersActivity extends AppCompatActivity {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://"+ip+"/SterixBackend/imageUpload.php";
+        String url ="http://"+ip+"/SterixBackend/imageUpload.php";
 
         JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
@@ -916,7 +933,60 @@ public class ServiceOrdersActivity extends AppCompatActivity {
 //        Toast t = Toast.makeText(getr);
     }
 
+    public String processExistingImages(){
 
+        String existingImages ="\"NONE\",";
+        String storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
+        File f = new File(storageDir);
+        File files[] = f.listFiles();
+
+        for(int i=0; i<files.length; i++){
+            Log.d("EXISTING",files[i].getName());
+            existingImages += '"'+files[i].getName()+'"'+",";
+        }
+        Log.d("EXISTIING",existingImages.substring(0,existingImages.length()-1));
+
+        return existingImages.substring(0,existingImages.length()-1);
+    }
+
+    public void decodeImages(JSONArray images){
+
+        for(int i=0; i<images.length(); i++){
+            try{
+
+            JSONObject obj = images.getJSONObject(i);
+            Log.d("DECODING",obj.get("filename").toString());
+
+            FileOutputStream fos = null;
+            BufferedOutputStream bos = null;
+
+            String base64ImageData = obj.get("encoded").toString();
+            Log.d("DECODING",getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()+"/"+obj.get("filename").toString());
+
+            try {
+                if (base64ImageData != null) {
+//                    fos = getApplicationContext().openFileOutput(getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()+"/"+obj.get("filename").toString(), Context.MODE_PRIVATE);
+                    bos = new BufferedOutputStream(new FileOutputStream(getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString()+"/"+obj.get("filename").toString()));
+                    byte[] imageAsBytes = Base64.decode(base64ImageData.getBytes(), 0);
+                    bos.write(imageAsBytes);
+                    bos.flush();
+                    bos.close();
+                }
+
+            } catch (Exception e) {
+
+                Log.d("DECODING","FAIL");
+
+            } finally {
+                if (bos != null) {
+                bos = null;
+                }
+            }
+
+          }catch (Exception e){}
+      }
+
+    }
 
 
 }

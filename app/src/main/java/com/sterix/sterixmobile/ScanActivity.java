@@ -1,6 +1,6 @@
 /*
 *
-*  Got help from https://code.tutsplus.com/tutorials/reading-qr-codes-using-the-mobile-vision-api--cms-24680
+*  Got help from http://code.tutsplus.com/tutorials/reading-qr-codes-using-the-mobile-vision-api--cms-24680
 *
 * */
 

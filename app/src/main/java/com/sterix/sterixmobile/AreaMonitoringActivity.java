@@ -73,18 +73,29 @@ public class AreaMonitoringActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.action_settings:
-//                // User chose the "Settings" item, show the app settings UI...
-//                return true;
-//
-//            case R.id.action_favorite:
-//                // User chose the "Favorite" action, mark the current item
-//                // as a favorite...
-//                return true;
+            case R.id.menu_logout:
+
+                // Remove all sharedpreferences
+                SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.clear();
+                editor.commit();
+
+                // Destroy all previous activities and go back to login screen
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                Toast t = Toast.makeText(getApplicationContext(),"Successfully logged out!",Toast.LENGTH_SHORT);
+                t.show();
+
+                // Destroy current activity
+                finish();
+
+                return true;
 
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
+
                 return super.onOptionsItemSelected(item);
 
         }
@@ -280,7 +291,7 @@ public class AreaMonitoringActivity extends AppCompatActivity {
     public void insertAreaMonitoringPestToServer(String service_order_id, String client_location_area_ID,String pest_id, String number){
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://"+ip+"/SterixBackend/insertAreaMonitoringPest.php";
+        String url ="http://"+ip+"/SterixBackend/insertAreaMonitoringPest.php";
 
         HashMap params = new HashMap<String,String>();
         params.put("service_order_id",service_order_id);

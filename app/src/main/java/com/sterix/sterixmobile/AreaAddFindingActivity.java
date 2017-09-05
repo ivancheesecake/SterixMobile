@@ -20,6 +20,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -101,20 +103,38 @@ public class AreaAddFindingActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.actionbar_menu, menu);
+        return true;
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.action_settings:
-//                // User chose the "Settings" item, show the app settings UI...
-//                return true;
-//
-//            case R.id.action_favorite:
-//                // User chose the "Favorite" action, mark the current item
-//                // as a favorite...
-//                return true;
+            case R.id.menu_logout:
+
+                // Remove all sharedpreferences
+                SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.clear();
+                editor.commit();
+
+                // Destroy all previous activities and go back to login screen
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                Toast t = Toast.makeText(getApplicationContext(),"Successfully logged out!",Toast.LENGTH_SHORT);
+                t.show();
+
+                // Destroy current activity
+                finish();
+
+                return true;
 
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
+
                 return super.onOptionsItemSelected(item);
 
         }
@@ -250,7 +270,7 @@ public class AreaAddFindingActivity extends AppCompatActivity {
     public void insertAreaMonitoringToServer(String service_order_id, String client_location_area_ID,String findings,String proposed_action,String timestamp){
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://"+ip+"/SterixBackend/insertAreaMonitoring.php";
+        String url ="http://"+ip+"/SterixBackend/insertAreaMonitoring.php";
 
 //        Log.d("PEST_INFO",pestInfo.toString());
 
@@ -309,6 +329,8 @@ public class AreaAddFindingActivity extends AppCompatActivity {
         outState.putParcelable("image", imageBitmap);
         super.onSaveInstanceState(outState);
     }
+
+
 
 
 }

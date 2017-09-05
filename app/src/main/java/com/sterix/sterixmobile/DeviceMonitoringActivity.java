@@ -318,6 +318,8 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
                                     Log.d("HUHU","HUHUHU");
                                 }
 
+                                barcodeInfo.setText("Device "+barcodes.valueAt(0).displayValue +" is not in this area.");
+
                             }
 
                         }
@@ -339,18 +341,30 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.action_settings:
-//                // User chose the "Settings" item, show the app settings UI...
-//                return true;
-//
-//            case R.id.action_favorite:
-//                // User chose the "Favorite" action, mark the current item
-//                // as a favorite...
-//                return true;
+            case R.id.menu_logout:
+                Log.d("LOGOUT","BITCH!");
+
+                // Remove all sharedpreferences
+                SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.clear();
+                editor.commit();
+
+                // Destroy all previous activities and go back to login screen
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                Toast t = Toast.makeText(getApplicationContext(),"Successfully logged out!",Toast.LENGTH_SHORT);
+                t.show();
+
+                // Destroy current activity
+                finish();
+
+                return true;
 
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
+
                 return super.onOptionsItemSelected(item);
 
         }
@@ -879,7 +893,7 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
     public void insertDeviceMonitoringToServer(String service_order_id, final String device_code, String client_location_area_ID, String timestamp, String device_condition_ID, String activity_ID, JSONArray pestInfo,String photoPath,String photoNotes){
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://"+ip+"/SterixBackend/insertDeviceMonitoring.php";
+        String url ="http://"+ip+"/SterixBackend/insertDeviceMonitoring.php";
 
         Log.d("PEST_INFO",pestInfo.toString());
 
@@ -1018,7 +1032,7 @@ public class DeviceMonitoringActivity extends AppCompatActivity {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://"+ip+"/SterixBackend/imageUpload.php";
+        String url ="http://"+ip+"/SterixBackend/imageUpload.php";
 
         JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {

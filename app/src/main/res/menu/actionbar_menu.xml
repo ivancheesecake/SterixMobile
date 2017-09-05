@@ -10,11 +10,11 @@
 
     <!-- Settings, should always be in the overflow -->
 
-    <item android:id="@+id/menu_service_orders"
-        android:title="@string/service_orders"
-        android:icon="@drawable/ic_logout"
-        app:showAsAction="never"
-        />
+    <!--<item android:id="@+id/menu_service_orders"-->
+        <!--android:title="@string/service_orders"-->
+        <!--android:icon="@drawable/ic_logout"-->
+        <!--app:showAsAction="never"-->
+        <!--/>-->
 
     <item android:id="@+id/menu_logout"
         android:title="@string/logout"

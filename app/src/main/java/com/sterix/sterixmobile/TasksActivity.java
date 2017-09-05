@@ -33,7 +33,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -186,7 +188,7 @@ public class TasksActivity extends AppCompatActivity {
 
                     SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
                     String tasksUpdate = sharedPref.getString("TASK_UPDATES", "");
-                    tasksUpdate += currentTask.getId()+","+currentTask.getStatus()+"|";
+                    tasksUpdate += currentTask.getId()+","+currentTask.getStatus()+","+new SimpleDateFormat("HH:mm:ss").format(new Date())+"|";
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("TASK_UPDATES",tasksUpdate);
                     editor.commit();
@@ -243,18 +245,30 @@ public class TasksActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.action_settings:
-//                // User chose the "Settings" item, show the app settings UI...
-//                return true;
-//
-//            case R.id.action_favorite:
-//                // User chose the "Favorite" action, mark the current item
-//                // as a favorite...
-//                return true;
+            case R.id.menu_logout:
+                Log.d("LOGOUT","BITCH!");
+
+                // Remove all sharedpreferences
+                SharedPreferences sharedPref = getSharedPreferences("sterix_prefs",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.clear();
+                editor.commit();
+
+                // Destroy all previous activities and go back to login screen
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                Toast t = Toast.makeText(getApplicationContext(),"Successfully logged out!",Toast.LENGTH_SHORT);
+                t.show();
+
+                // Destroy current activity
+                finish();
+
+                return true;
 
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
+
                 return super.onOptionsItemSelected(item);
 
         }
@@ -272,11 +286,12 @@ public class TasksActivity extends AppCompatActivity {
     public void updateStatusOnServer(String task_id,String status){
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://"+ip+"/SterixBackend/updateTaskStatus.php";
+        String url ="http://"+ip+"/SterixBackend/updateTaskStatus.php";
 
         HashMap params = new HashMap<String,String>();
         params.put("task_id",task_id);
         params.put("status",status);
+        params.put("timestamp",new SimpleDateFormat("HH:mm:ss").format(new Date()));
 
         JsonObjectRequest request_json = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
