@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        android:actionMenuTextColor="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+
+    <ScrollView
+        android:layout_below="@id/toolbar"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activity_service_orders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/activity_device_monitoring"
+        tools:context="com.sterix.sterixmobile.DeviceMonitoringActivity"
+
+        >
+
+        <RelativeLayout
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <!--ROW 1 | Location + Alert -->
+            <android.support.percent.PercentRelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingRight="5dp"
+                android:background="@drawable/curved_borders_blue"
+                android:id="@+id/import_device_row1"
+                >
+                <TextView
+
+                    android:id="@+id/edit_inaccessible_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textColor="@color/white"
+                    app:layout_widthPercent="60%"
+                    android:textSize="16dp"
+                    >
+
+                </TextView>
+
+                <Button
+
+                    android:id="@+id/device_monitoring_alert"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textColor="@color/white"
+                    app:layout_widthPercent="30%"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/curved_borders_red"
+                    android:textAllCaps="false"
+                    android:text="@string/send_alert"
+                    android:onClick="sendAlert"
+
+                    >
+
+                </Button>
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <!--ROW 2 | Device Code TextView -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/import_device_row1"
+                android:id="@+id/import_device_row2"
+                android:orientation="vertical"
+                >
+
+
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_centerVertical="true"
+                    android:textSize="18dp"
+                    android:padding="5dp"
+                    android:id="@+id/inaccessible_device_code"
+                    />
+
+                <android.support.percent.PercentRelativeLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/device_monitoring_row3"
+                    android:layout_below="@id/device_monitoring_row2"
+                    android:layout_marginBottom="5dp"
+                    >
+
+                    <!--&lt;!&ndash; Combobox ito &ndash;&gt;-->
+                    <!--<Button-->
+
+                    <!--android:id="@+id/device_condition"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="16dp"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--app:layout_widthPercent="49%"-->
+
+                    <!--android:background="@drawable/curved_borders_lightblue"-->
+                    <!--android:textAllCaps="false"-->
+                    <!--android:text="@string/condition"-->
+
+                    <!--&gt;-->
+
+                    <!--</Button>-->
+
+                    <!--<Button-->
+
+                    <!--android:id="@+id/device_action"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="16dp"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--app:layout_widthPercent="49%"-->
+                    <!--android:background="@drawable/curved_borders_lightblue"-->
+                    <!--android:textAllCaps="false"-->
+                    <!--android:text="@string/action"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_alignParentRight="true"-->
+
+                    <!--&gt;-->
+
+                    <!--</Button>-->
+
+                    <Spinner
+                        android:id="@+id/device_condition_inaccessible"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        app:layout_widthPercent="50%"
+                        >
+                    </Spinner>
+
+                    <Spinner
+                        android:id="@+id/device_activity_inaccessible"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        app:layout_widthPercent="50%"
+                        android:layout_toRightOf="@id/device_condition_inaccessible"
+                        >
+                    </Spinner>
+
+                </android.support.percent.PercentRelativeLayout>
+
+
+
+            </LinearLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+
+                android:layout_below="@+id/import_device_row2"
+                android:id="@+id/import_device_row3"
+                android:layout_marginBottom="5dp"
+
+                >
+
+
+                <Button
+
+                    android:id="@+id/device_button_rescan"
+                    android:background="@drawable/curved_borders_blue"
+                    android:text="@string/cancel"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    app:layout_widthPercent="49%"
+                    app:layout_marginRightPercent="2%"
+                    android:onClick="cancelledt"
+                    android:padding="5dp"
+
+                    />
+
+                <Button
+                    android:id="@+id/device_import"
+                    android:background="@drawable/curved_borders_blue"
+                    android:text="@string/save"
+                    android:textColor="@color/white"
+                    app:layout_widthPercent="49%"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:layout_toRightOf="@id/device_button_rescan"
+                    android:padding="5dp"
+                    android:onClick="save"
+
+                    />
+
+            </android.support.percent.PercentRelativeLayout>
+
+
+
+
+
+        </RelativeLayout>
+
+
+
+
+
+    </ScrollView>
+
+
+</RelativeLayout>

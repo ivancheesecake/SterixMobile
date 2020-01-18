@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:contentPadding="10dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <!--<ImageView-->
+            <!--android:id="@+id/card_image"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="200dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--/>-->
+
+
+            <TextView
+                android:id="@+id/card_finding_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/area_findings_u"
+
+                />
+
+            <TextView
+                android:id="@+id/card_finding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_finding_title"
+                android:textSize="14sp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                />
+
+            <!--<TextView-->
+                <!--android:id="@+id/card_finding_view_photos"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/card_finding"-->
+                <!--android:textSize="14sp"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:text="@string/view_photo_u"-->
+                <!--android:textColor="@color/colorPrimary"-->
+                <!--android:tag="findings-view"-->
+                <!--android:onClick="viewPhotos"-->
+                <!--/>-->
+
+            <TextView
+                android:id="@+id/card_proposed_action_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/area_proposed_actions_u"
+                android:layout_below="@id/card_finding"
+                />
+
+            <TextView
+                android:id="@+id/card_proposed_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_proposed_action_title"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:id="@+id/card_actions_taken_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/area_actions_taken_u"
+                android:layout_below="@id/card_proposed_action"
+                />
+
+            <TextView
+                android:id="@+id/card_action_taken"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_actions_taken_title"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <!--<TextView-->
+                <!--android:id="@+id/card_action_taken_view_photos"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/card_action_taken"-->
+                <!--android:textSize="14sp"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:text="@string/view_photo_u"-->
+                <!--android:textColor="@color/colorPrimary"-->
+                <!--android:tag="actions-view"-->
+                <!--android:onClick="viewPhotos"-->
+                <!--/>-->
+
+            <TextView
+                android:id="@+id/card_risk_assessment_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/risk_assessment"
+                android:layout_below="@id/card_action_taken"
+                />
+
+            <TextView
+                android:id="@+id/card_risk_assessment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_risk_assessment_title"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:id="@+id/card_status_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/status"
+                android:layout_below="@id/card_risk_assessment"
+                />
+
+            <TextView
+                android:id="@+id/card_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_status_title"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+
+            <TextView
+                android:id="@+id/card_person_in_charge_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/person_in_charge"
+                android:layout_below="@id/card_status"
+                />
+
+            <TextView
+                android:id="@+id/card_person_in_charge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_person_in_charge_title"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

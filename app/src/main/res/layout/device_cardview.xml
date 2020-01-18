@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:contentPadding="10dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:id="@+id/card_device_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="STX-GLT-1712-0669-NES-HQO-C1L7"
+                />
+
+            <TextView
+                android:id="@+id/card_device_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_device_code"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="Area"
+
+                />
+
+
+
+            <TextView
+                android:id="@+id/card_device_condition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_device_area"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="Condition"
+
+                />
+
+
+            <TextView
+                android:id="@+id/card_device_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@id/card_device_condition"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="Activity"
+
+                />
+
+            <TextView
+                android:id="@+id/card_device_schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@id/card_device_action"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="Schedule:"
+
+                />
+
+            <TextView
+                android:id="@+id/card_device_is_scheduled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@id/card_device_schedule"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="Is scheduled?"
+
+                />
+
+
+
+
+            <Button
+                android:id="@+id/edit_device"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:padding="16dp"
+                android:textColor="@color/white"
+                android:background="@drawable/curved_borders_blue"
+                android:textAllCaps="false"
+                android:text="@string/edit"
+                android:layout_below="@id/card_device_is_scheduled"
+                android:layout_marginTop="5dp"
+                android:onClick="editDevice"
+                >
+            </Button>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

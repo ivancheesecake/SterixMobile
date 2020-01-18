@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sterix.sterixmobile.AreaEditFindingActivity"
+
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@color/white"
+            android:backgroundTint="@color/colorPrimary"
+            android:actionMenuTextColor="@color/white"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:padding="5dp">
+
+
+            <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/area_add_finding_row1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/curved_borders_blue"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+
+                    android:id="@+id/area_add_finding_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_widthPercent="60%">
+
+                </TextView>
+
+                <Button
+
+                    android:id="@+id/area_add_finding_alert"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/curved_borders_red"
+                    android:padding="16dp"
+                    android:text="@string/send_alert"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:layout_widthPercent="30%"
+                    android:onClick="sendAlert"
+
+                    >
+
+                </Button>
+
+            </android.support.percent.PercentRelativeLayout>
+
+
+            <!-- Add Finding  -->
+
+            <TextView
+                android:id="@+id/area_add_finding_row2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/area_add_finding_row1"
+                android:layout_marginBottom="5dp"
+                android:text="@string/area_findings"
+                android:textSize="18sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/area_add_finding_row3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/area_add_finding_row2"
+                android:layout_marginBottom="5dp"
+                android:theme="@style/AppTheme">
+
+                <EditText
+                    android:id="@+id/area_findings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:hint="@string/area_findings_enter"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:lines="2"
+
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- ImageView -->
+
+
+            <!-- Photo Buttons -->
+            <LinearLayout
+                android:id="@+id/area_add_finding_row4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/area_add_finding_row3"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/curved_borders_blue"
+                    android:onClick="takePhoto"
+                    android:padding="5dp"
+                    android:text="@string/add_photo"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:tag="findings"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/curved_borders_blue"
+                    android:onClick="viewFindingPhotos"
+                    android:padding="5dp"
+                    android:text="@string/view_photo"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:tag="findings-edit"/>
+
+            </LinearLayout>
+
+
+            <!-- Proposed Actions -->
+
+            <TextView
+                android:id="@+id/area_add_finding_row5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/area_add_finding_row4"
+                android:layout_marginBottom="5dp"
+                android:text="@string/area_proposed_actions"
+                android:textSize="18sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/area_add_finding_row6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/area_add_finding_row5"
+                android:layout_marginBottom="5dp"
+                android:theme="@style/AppTheme">
+
+                <EditText
+                    android:id="@+id/area_proposed_action"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:hint="@string/area_proposed_enter"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:lines="3"
+
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Actions Taken -->
+
+            <TextView
+                android:id="@+id/area_add_finding_row7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/area_add_finding_row6"
+                android:layout_marginBottom="5dp"
+                android:text="@string/area_actions_taken"
+                android:textSize="18sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/area_add_finding_row8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/area_add_finding_row7"
+                android:layout_marginBottom="5dp"
+                android:theme="@style/AppTheme">
+
+                <EditText
+                    android:id="@+id/area_findings_actions_taken"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:hint="@string/area_actions_enter"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:lines="3"
+
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Photo Buttons II -->
+            <LinearLayout
+                android:id="@+id/area_add_finding_row9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/area_add_finding_row8"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/curved_borders_blue"
+                    android:onClick="takePhoto"
+                    android:padding="5dp"
+                    android:text="@string/add_photo"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:tag="actions"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/curved_borders_blue"
+                    android:onClick="viewFindingPhotos"
+                    android:padding="5dp"
+                    android:text="@string/view_photo"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:tag="actions-edit"/>
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/area_add_finding_row10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/area_add_finding_row9"
+                android:layout_marginBottom="5dp"
+                android:text="@string/risk_assessment"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/area_risk_assessment_edit"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                app:layout_widthPercent="50%"
+                android:layout_below="@id/area_add_finding_row10"
+
+                >
+            </Spinner>
+
+
+            <TextView
+                android:id="@+id/area_add_finding_row11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/area_risk_assessment_edit"
+                android:layout_marginBottom="5dp"
+                android:text="@string/status"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/area_status_spinner"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                app:layout_widthPercent="50%"
+                android:layout_below="@id/area_add_finding_row11"
+
+                >
+            </Spinner>
+
+
+
+
+
+            <TextView
+                android:id="@+id/area_add_finding_row12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/area_status_spinner"
+                android:layout_marginBottom="5dp"
+                android:text="@string/person_in_charge"
+                android:textSize="18sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/area_add_finding_row13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/area_add_finding_row12"
+                android:layout_marginBottom="5dp"
+                android:theme="@style/AppTheme">
+
+                <EditText
+                    android:id="@+id/area_person_in_charge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:hint="@string/person_in_charge_enter"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:lines="3"
+
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+
+
+            <!-- Save -->
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/curved_borders_blue"
+                android:text="@string/save"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:padding="5dp"
+                android:onClick="saveFinding"
+                android:id="@+id/area_add_finding_row14"
+                android:layout_below="@id/area_add_finding_row13"
+                />
+
+
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</ScrollView>
